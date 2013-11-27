@@ -187,8 +187,8 @@
     function setVehPos(row) {
         if(vehMarkers[row.mission_id]) {
         	vehMarkers[row.mission_id].closePopup(); // Leaflet bug where it doesn't move the popup
-            lvehMarkers[row.mission_id].setLatLng([row.gps_lat,row.gps_lon]);
-            //lvehMarkers[row.mission_id].bindPopup("Updated: "+row['t']+"<br>Speed: "+Math.round(row['spd'])+" mph");
+            vehMarkers[row.mission_id].setLatLng([row.gps_lat,row.gps_lon]);
+            //vehMarkers[row.mission_id].bindPopup("Updated: "+row['t']+"<br>Speed: "+Math.round(row['spd'])+" mph");
             vehMarkers[row.mission_id].update();
             vehCircles[row.mission_id][0].setLatLng([row.gps_lat,row.gps_lon]);
             vehCircles[row.mission_id][1].setLatLng([row.gps_lat,row.gps_lon]);
@@ -202,12 +202,12 @@
             //lastMarker.bindPopup("Updated: "+row['t']+"<br>Speed: "+Math.round(row['spd'])+" mph");
             vehCircles[row.mission_id][0] = L.circle(
                 [row.gps_lat,row.gps_lon],
-                Math.sqrt(12.756*gps_alt)*1000,
+                Math.sqrt(12.756*row.gps_alt)*1000,
                 {color: blue}
             ).addTo(map);
             vehCircles[row.mission_id][1] = L.circle(
                 [row.gps_lat,row.gps_lon],
-                subhorizon_radius(gps.alt),
+                subhorizon_radius(row.gps_alt),
                 {color: green}
             ).addTo(map);
         }
