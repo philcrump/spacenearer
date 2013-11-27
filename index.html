@@ -107,6 +107,7 @@
         iconUrl: 'static/images/antenna-green.png',
         iconSize:     [26, 32], // size of the icon
         iconAnchor:   [13, 32], // point of the icon which will correspond to marker's location
+        popupAnchor: [0, -32]
     });
     
     function balloonIconFactory(iconId,altitude) { // Just to annoy Java geeks
@@ -118,6 +119,7 @@
             shadowUrl: 'static/images/shadow.png',
             shadowSize: [24, 16],
             shadowAnchor: [12, 8],
+            popupAnchor: [0, -(80+Math.round(altitude/1000))],
             zIndexOffset: 1000
         });
     }
