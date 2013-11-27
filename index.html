@@ -239,7 +239,7 @@
             + "<b>Position:</b> " + position.gps_lat + "," + position.gps_lon + "<br>"
             + "<b>Altitude:</b> " + position.gps_alt + " m<br>";
         if(position.callsign.split(",").length!=0) {
-            html += "<b>Receivers:</b> " + position.callsign.split(",").join(", "), "")
+            html += "<b>Receivers:</b> " + position.callsign.split(",").join(", ");
         }
         html += "</p>";
         return html;
