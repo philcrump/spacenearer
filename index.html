@@ -88,6 +88,7 @@
     var map = L.map('map').setView([50.673, -1.286], 4);
     var rxMarkers=[];
     var vehMarkers=[];
+    var vehCircles=[];
     var vehTails=[];
     var lastPosId=0;
 	var rxRefreshInterval=60;
@@ -189,12 +190,26 @@
             lvehMarkers[row.mission_id].setLatLng([row.gps_lat,row.gps_lon]);
             //lvehMarkers[row.mission_id].bindPopup("Updated: "+row['t']+"<br>Speed: "+Math.round(row['spd'])+" mph");
             vehMarkers[row.mission_id].update();
+            vehCircles[row.mission_id][0].setLatLng([row.gps_lat,row.gps_lon]);
+            vehCircles[row.mission_id][1].setLatLng([row.gps_lat,row.gps_lon]);
+            vehCircles[row.mission_id][0].setRadius(Math.sqrt(12.756*gps_alt)*1000);
+            vehCircles[row.mission_id][1].setRadius(subhorizon_radius(gps.alt));
         } else {
             vehMarkers[row.mission_id] = L.marker([row.gps_lat,row.gps_lon], {
                 title: row.vehicle,
                 icon: balloonIconFactory(row.mission_id,row.gps_alt)
             }).addTo(map);
             //lastMarker.bindPopup("Updated: "+row['t']+"<br>Speed: "+Math.round(row['spd'])+" mph");
+            vehCircles[row.mission_id][0] = L.circle(
+                [row.gps_lat,row.gps_lon],
+                Math.sqrt(12.756*gps_alt)*1000,
+                {color: blue}
+            ).addTo(map);
+            vehCircles[row.mission_id][1] = L.circle(
+                [row.gps_lat,row.gps_lon],
+                subhorizon_radius(gps.alt),
+                {color: green}
+            ).addTo(map);
         }
         
     }
@@ -215,6 +230,16 @@
         }
     }
     //setInterval(function() { ga('send', 'event', 'hb', 'keepalive'); },3*60*1000);
+    
+    function subhorizon_radius(alt) {
+        var el = 5.0; // elevation above horizon
+        var rad = 6378.10; // radius of earth
+        var h = alt / 1000; // height above ground
+
+        var elva = el * Math.PI / 180.0;
+        var slant = rad*(Math.cos(Math.PI/2+elva)+Math.sqrt(Math.pow(Math.cos(Math.PI/2+elva),2)+h*(2*rad+h)/Math.pow(rad,2)));
+        return 1000*(Math.acos((Math.pow(rad,2)+Math.pow(rad+h,2)-Math.pow(slant,2))/(2*rad*(rad+h)))*rad);
+    }
 </script>
 </body>
 </html>
