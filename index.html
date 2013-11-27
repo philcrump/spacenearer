@@ -108,6 +108,12 @@
         iconAnchor:   [0, 32], // point of the icon which will correspond to marker's location
     });
     
+    redBalloonIcon = L.icon({
+        iconUrl: 'static/images/antenna-green.png',
+        iconSize:     [46, 84], // size of the icon
+        iconAnchor:   [0, 84], // point of the icon which will correspond to marker's location
+    });
+    
     refreshReceivers();
     refreshVehicles();
     
@@ -178,7 +184,8 @@
             vehMarkers[row.mission_id].update();
         } else {
             vehMarkers[row.mission_id] = L.marker([row.gps_lat,row.gps_lon], {
-                title: row.vehicle
+                title: row.vehicle,
+                icon: redBalloonIcon
             }).addTo(map);
             //lastMarker.bindPopup("Updated: "+row['t']+"<br>Speed: "+Math.round(row['spd'])+" mph");
         }
