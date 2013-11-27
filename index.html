@@ -188,7 +188,7 @@
         if(vehMarkers[row.mission_id]) {
         	vehMarkers[row.mission_id].closePopup(); // Leaflet bug where it doesn't move the popup
             vehMarkers[row.mission_id].setLatLng([row.gps_lat,row.gps_lon]);
-            //vehMarkers[row.mission_id].bindPopup("Updated: "+row['t']+"<br>Speed: "+Math.round(row['spd'])+" mph");
+            vehMarkers[row.mission_id].bindPopup(popupHtml(row));
             vehMarkers[row.mission_id].update();
             vehCircles[row.mission_id][0].setLatLng([row.gps_lat,row.gps_lon]);
             vehCircles[row.mission_id][1].setLatLng([row.gps_lat,row.gps_lon]);
@@ -199,7 +199,7 @@
                 title: row.vehicle,
                 icon: balloonIconFactory(row.mission_id,row.gps_alt)
             }).addTo(map);
-            //lastMarker.bindPopup("Updated: "+row['t']+"<br>Speed: "+Math.round(row['spd'])+" mph");
+            vehMarkers[row.mission_id].bindPopup(popupHtml(row));
             vehCircles[row.mission_id]=[];
             vehCircles[row.mission_id][0] = L.circle(
                 [row.gps_lat,row.gps_lon],
@@ -231,6 +231,19 @@
         }
     }
     //setInterval(function() { ga('send', 'event', 'hb', 'keepalive'); },3*60*1000);
+    
+    function popupHtml(position) {
+        var html = "<b>" + position.vehicle + "</b><br>"
+            + '<p style="font-size: 8pt;">'
+            + "<b>Time:</b> " + position.gps_time + "<br>"
+            + "<b>Position:</b> " + position.gps_lat + "," + position.gps_lon + "<br>"
+            + "<b>Altitude:</b> " + position.gps_alt + " m<br>";
+        if(position.callsign.split(",").length!=0) {
+            html += "<b>Receivers:</b> " + position.callsign.split(",").join(", "), "")
+        }
+        html += "</p>";
+        return html;
+    }
     
     function subhorizon_radius(alt) {
         var el = 5.0; // elevation above horizon
