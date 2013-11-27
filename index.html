@@ -203,12 +203,12 @@
             vehCircles[row.mission_id][0] = L.circle(
                 [row.gps_lat,row.gps_lon],
                 Math.sqrt(12.756*row.gps_alt)*1000,
-                {color: blue}
+                {color: "#0000FF"}
             ).addTo(map);
             vehCircles[row.mission_id][1] = L.circle(
                 [row.gps_lat,row.gps_lon],
                 subhorizon_radius(row.gps_alt),
-                {color: green}
+                {color: "#00FF00"}
             ).addTo(map);
         }
         
