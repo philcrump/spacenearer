@@ -174,10 +174,11 @@
 	        success: function( jsonData ) {
 	            data = jsonData.positions.position;
 	            if(data.length!=0) {
-		            setVehPos(data[data.length-1]);
+	                lastIndex=data.length-1;
+		            setVehPos(data[lastIndex]);
 		            drawVehTail(data);
-		            lastPosId=data[data.length-1].position_id;
-		            map.panTo([data[data.length-1].gps_lat,data[data.length-1].gps_lon]);
+		            lastPosId=data[lastIndex].position_id;
+		            map.panTo([data[lastIndex].gps_lat,data[lastIndex].gps_lon]);
 		        }
 	        }
         });
