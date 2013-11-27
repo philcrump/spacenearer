@@ -132,7 +132,8 @@
 	                for (var i=0; i<dataLength; i++) {
 	                    if(!rxMarkers[data[i].name]) {
 	                        rxMarkers[data[i].name] = L.marker([data[i].lat,data[i].lon], {
-                                title: data[i].name
+                                title: data[i].name,
+                                icon: rxIcon
                             }).addTo(map);
                         }
                         rxMarkers[data[i].name].bindPopup(data[i].description);
