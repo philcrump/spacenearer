@@ -113,7 +113,7 @@
         return L.icon({
             iconUrl: 'static/images/balloon-red.png',
             iconSize:     [46, 84], // size of the icon
-            iconAnchor:   [23, 80+Math.round(altitude/500)], // point of the icon which will correspond to marker's location
+            iconAnchor:   [23, 80-Math.round(altitude/1000)], // point of the icon which will correspond to marker's location
             shadowUrl: 'static/images/shadow.png',
             shadowSize: [24, 16],
             shadowAnchor: [12, -Math.round(altitude/1000)]
