@@ -105,14 +105,20 @@
     rxIcon = L.icon({
         iconUrl: 'static/images/antenna-green.png',
         iconSize:     [26, 32], // size of the icon
-        iconAnchor:   [13, 28], // point of the icon which will correspond to marker's location
+        iconAnchor:   [13, 32], // point of the icon which will correspond to marker's location
     });
     
-    redBalloonIcon = L.icon({
-        iconUrl: 'static/images/balloon-red.png',
-        iconSize:     [46, 84], // size of the icon
-        iconAnchor:   [23, 84], // point of the icon which will correspond to marker's location
-    });
+    function balloonIconFactory(iconId,altitude) { // Just to annoy Java geeks
+        //TODO use iconId to select red/green/blue balloon icon
+        return L.icon({
+            iconUrl: 'static/images/balloon-red.png',
+            iconSize:     [46, 84], // size of the icon
+            iconAnchor:   [23, 80], // point of the icon which will correspond to marker's location
+            shadowUrl: 'static/images/shadow.png',
+            shadowSize: [24, 16],
+            shadowAnchor: [-12, 94+(altitude/1000)]
+        });
+    }
     
     refreshReceivers();
     refreshVehicles();
@@ -185,7 +191,7 @@
         } else {
             vehMarkers[row.mission_id] = L.marker([row.gps_lat,row.gps_lon], {
                 title: row.vehicle,
-                icon: redBalloonIcon
+                icon: balloonIconFactory(row.mission_id,row.gps_alt)
             }).addTo(map);
             //lastMarker.bindPopup("Updated: "+row['t']+"<br>Speed: "+Math.round(row['spd'])+" mph");
         }
