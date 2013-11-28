@@ -176,7 +176,7 @@
 	        type: "GET",
 	        dataType: 'json',
 	        data: {
-	            vehicles: "HABEXpico2",
+	            vehicles: "HABEXpico2", //TODO: Test with multiple payloads and remove filter
 	            format: "json",
 	            position_id: lastPosId,
 	            max_positions: 0
@@ -216,7 +216,7 @@
 	                        drawPredBurst(pathData[maxIndex],data[i].vehicle) // Render Burst Point
 	                        drawPredTarget(pathData[pathData.length-1],data[i].vehicle) // Render Landing Point
 	                        
-                        }
+                        } //TODO: Else, update existing ones.
                     }
 	        }
         });
@@ -224,10 +224,10 @@
     
     function setVehPos(row) {
         if(vehMarkers[row.mission_id]) {
-        	vehMarkers[row.mission_id].closePopup(); // Leaflet bug where it doesn't move the popup
+        	vehMarkers[row.mission_id].closePopup(); // TODO: Leaflet bug where it doesn't move the popup (was in v0.6?)
             vehMarkers[row.mission_id].setLatLng([row.gps_lat,row.gps_lon]);
             vehMarkers[row.mission_id].bindPopup(popupHtml(row));
-            vehMarkers[row.mission_id].update();
+            vehMarkers[row.mission_id].update(); // TODO: Do we really need to call .update() the whole time?
             vehCircles[row.mission_id][0].setLatLng([row.gps_lat,row.gps_lon]);
             vehCircles[row.mission_id][1].setLatLng([row.gps_lat,row.gps_lon]);
             vehCircles[row.mission_id][0].setRadius(Math.sqrt(12.756*gps_alt)*1000);
@@ -270,7 +270,7 @@
     
     function drawPredBurst(row,vehicle) {
         if(vehPredictions[vehicle][1]) {
-        	vehPredictions[vehicle][1].closePopup(); // Leaflet bug where it doesn't move the popup
+        	vehPredictions[vehicle][1].closePopup(); // TODO: Leaflet bug where it doesn't move the popup (was in v0.6?)
             vehPredictions[vehicle][1].setLatLng([row.lat,row.lon]);
             vehPredictions[vehicle][1].bindPopup(moment.unix(row.time).format("HH:mm:ss")+" UTC");
             vehPredictions[vehicle][1].update();
@@ -285,7 +285,7 @@
     
     function drawPredTarget(row,vehicle) {
         if(vehPredictions[vehicle][2]) {
-        	vehPredictions[vehicle][2].closePopup(); // Leaflet bug where it doesn't move the popup
+        	vehPredictions[vehicle][2].closePopup(); // TODO: Leaflet bug where it doesn't move the popup (was in v0.6?)
             vehPredictions[vehicle][2].setLatLng([row.lat,row.lon]);
             vehPredictions[vehicle][2].bindPopup(moment.unix(row.time).format("HH:mm:ss")+" UTC");
             vehPredictions[vehicle][2].update();
@@ -320,19 +320,19 @@
             + '<p style="font-size: 8pt;">'
             + "<b>Time:</b> " + position.gps_time + "<br>"
             + "<b>Position:</b> " + position.gps_lat + "," + position.gps_lon + "<br>"
-            + "<b>Altitude:</b> " + position.gps_alt + " m<br>";
+            + "<b>Altitude:</b> " + position.gps_alt + " m";
         if(position.callsign.split(",").length!=0) {
-            html += "<b>Receivers:</b> " + position.callsign.split(",").join(", ");
+            html += "<br><b>Receivers:</b> " + position.callsign.split(",").join(", ");
         }
         html += "</p>";
         return html;
     }
     
-    function subhorizon_radius(alt) {
-        var el = 5.0; // elevation above horizon
+    function subhorizon_radius(alt) { // Returns subhorizon radius in m
+        var el = 5.0; // degrees of elevation
         var rad = 6378.10; // radius of earth
-        var h = alt / 1000; // height above ground
-
+        var h = alt / 1000;
+        
         var elva = el * Math.PI / 180.0;
         var slant = rad*(Math.cos(Math.PI/2+elva)+Math.sqrt(Math.pow(Math.cos(Math.PI/2+elva),2)+h*(2*rad+h)/Math.pow(rad,2)));
         return 1000*(Math.acos((Math.pow(rad,2)+Math.pow(rad+h,2)-Math.pow(slant,2))/(2*rad*(rad+h)))*rad);
