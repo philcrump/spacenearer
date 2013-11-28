@@ -179,10 +179,10 @@
 	            data = jsonData.positions.position;
 	            if(data.length!=0) {
 	                lastIndex=data.length-1;
+	                if(lastPosId==0) map.setView([data[lastIndex].gps_lat,data[lastIndex].gps_lon],8);
 		            setVehPos(data[lastIndex]);
 		            drawVehTail(data);
 		            lastPosId=data[lastIndex].position_id;
-		            map.setView([data[lastIndex].gps_lat,data[lastIndex].gps_lon],8);
 		        }
 	        }
         });
