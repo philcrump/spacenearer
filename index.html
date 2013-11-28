@@ -313,8 +313,6 @@
         }
     }
     
-    //setInterval(function() { ga('send', 'event', 'hb', 'keepalive'); },3*60*1000);
-    
     function popupHtml(position) {
         var html = "<b>" + position.vehicle + "</b><br>"
             + '<p style="font-size: 8pt;">'
@@ -337,6 +335,15 @@
         var slant = rad*(Math.cos(Math.PI/2+elva)+Math.sqrt(Math.pow(Math.cos(Math.PI/2+elva),2)+h*(2*rad+h)/Math.pow(rad,2)));
         return 1000*(Math.acos((Math.pow(rad,2)+Math.pow(rad+h,2)-Math.pow(slant,2))/(2*rad*(rad+h)))*rad);
     }
+</script>
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-44620835-2', 'philcrump.co.uk');
+    ga('send', 'pageview');
+    setInterval(function() { ga('send', 'event', 'hb', 'keepalive'); },3*60*1000);
 </script>
 </body>
 </html>
