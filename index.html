@@ -232,9 +232,10 @@
 	                                maxIndex=j;
 	                            }
 	                        }
-	                        drawPredBurst(pathData[maxIndex],data[i].vehicle) // Render Burst Point
-	                        drawPredTarget(pathData[pathData.length-1],data[i].vehicle) // Render Landing Point
-	                        
+	                        if(typeof pathData[maxIndex]!='undefined') {
+	                            drawPredBurst(pathData[maxIndex],data[i].vehicle) // Render Burst Point
+	                            drawPredTarget(pathData[pathData.length-1],data[i].vehicle) // Render Landing Point
+	                        }
                         } //TODO: Else, update existing ones.
                     }
 	        }
@@ -250,7 +251,7 @@
             vehCircles[row.mission_id][0].setLatLng([row.gps_lat,row.gps_lon]);
             vehCircles[row.mission_id][1].setLatLng([row.gps_lat,row.gps_lon]);
             vehCircles[row.mission_id][0].setRadius(Math.sqrt(12.756*row.gps_alt)*1000);
-            vehCircles[row.mission_id][1].setRadius(subhorizon_radius(gps.alt));
+            vehCircles[row.mission_id][1].setRadius(subhorizon_radius(row.gps_alt));
         } else {
             vehMarkers[row.mission_id] = L.marker([row.gps_lat,row.gps_lon], {
                 title: row.vehicle,
