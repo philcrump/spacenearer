@@ -315,17 +315,11 @@
     
     function drawPredTail(allRows,vehicle) {
         var allLength = allRows.length;
-        if(vehPredictions[vehicle][0]) {
-            for (var i=0; i<allLength; i++) {
-                vehPredictions[vehicle][0].addLatLng(new L.LatLng(allRows[i].lat, allRows[i].lon));
-            }
-        } else {
-            var temp_latlngs = [];
-            for (var i=0; i<allLength; i++) {
-                temp_latlngs.push(new L.LatLng(allRows[i].lat, allRows[i].lon));
-            }
-           vehPredictions[vehicle][0] = L.polyline(temp_latlngs, {color: 'red', opacity: 0.4, weight: 3}).addTo(map);
+        var temp_latlngs = [];
+        for (var i=0; i<allLength; i++) {
+            temp_latlngs.push(new L.LatLng(allRows[i].lat, allRows[i].lon));
         }
+       vehPredictions[vehicle][0] = L.polyline(temp_latlngs, {color: 'red', opacity: 0.4, weight: 3}).addTo(map);
     }
     
     function popupHtml(position) {
