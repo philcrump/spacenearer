@@ -105,14 +105,14 @@
 
     var ggl = new L.Google();
     var ggl2 = new L.Google('TERRAIN');
-    if (typeof(bing_os) != "undefined") {
+    if (typeof bing_os != 'undefined') {
         map.addLayer(bing_os);
     } else {
         map.addLayer(osm);
     }
 
     var layers = new L.Control.Layers( {'OSM':osm, 'Google Satellite':ggl, 'Google Terrain':ggl2}, {});
-    if (typeof(bing_os) != "undefined") {
+    if (typeof bing_os != 'undefined') {
         layers.addBaseLayer(bing_os,'Ordnance Survey (Bing)');
     }
     map.addControl(layers);
