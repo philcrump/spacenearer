@@ -213,9 +213,10 @@
 	                                maxIndex=j;
 	                            }
 	                        }
-	                        drawPredBurst(pathData[maxIndex],data[i].vehicle) // Render Burst Point
-	                        drawPredTarget(pathData[pathData.length-1],data[i].vehicle) // Render Landing Point
-	                        
+	                        if(typeof pathData[maxIndex]!=undefined) {
+	                            drawPredBurst(pathData[maxIndex],data[i].vehicle) // Render Burst Point
+	                            drawPredTarget(pathData[pathData.length-1],data[i].vehicle) // Render Landing Point
+	                        }
                         } //TODO: Else, update existing ones.
                     }
 	        }
