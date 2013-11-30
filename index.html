@@ -94,14 +94,16 @@
         minZoom: 2
     });
     
+/*
     //Requires and API Key from https://www.bingmapsportal.com/
-    var bing_os = new L.BingLayer("AmAqAyLmP4IsxSI1_5uOR07slQnrOTcRumXi48iTDX7dIAyRsXCaQqe0fqf5awkj", {
+    var bing_os = new L.BingLayer("API_KEY", {
         type: 'OrdnanceSurvey',
         attribution: 'Ordnance Survey maps using Bing maps API',
         maxZoom: 17,
         minZoom: 10
     });
 	// TODO: Add bounds box for UK only
+*/
 
     var ggl = new L.Google();
     var ggl2 = new L.Google('TERRAIN');
@@ -195,7 +197,7 @@
 	        type: "GET",
 	        dataType: 'json',
 	        data: {
-	            vehicles: "SD3", //TODO: Test with multiple payloads and remove filter
+	            vehicles: "B-32", //TODO: Test with multiple payloads and remove filter
 	            format: "json",
 	            position_id: lastPosId,
 	            max_positions: 0
@@ -360,7 +362,7 @@
     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
     })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-    ga('create', 'UA-40003953-3', 'm1ari.co.uk');
+    ga('create', 'UA-44620835-2', 'philcrump.co.uk');
     ga('send', 'pageview');
     setInterval(function() { ga('send', 'event', 'hb', 'keepalive'); },3*60*1000);
 </script>
