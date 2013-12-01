@@ -290,7 +290,6 @@
             vehPredictions[vehicle][1].bindPopup(moment.unix(row.time).format("HH:mm:ss")+" UTC");
             vehPredictions[vehicle][1].update();
         } else {
-            map.removeLayer(vehPredictions[vehicle][1]);
             vehPredictions[vehicle][1] = L.marker([row.lat,row.lon], {
                 title: "Burst Prediction",
                 icon: burstIcon
@@ -306,7 +305,6 @@
             vehPredictions[vehicle][2].bindPopup(moment.unix(row.time).format("HH:mm:ss")+" UTC");
             vehPredictions[vehicle][2].update();
         } else {
-            map.removeLayer(vehPredictions[vehicle][2]);
             vehPredictions[vehicle][2] = L.marker([row.lat,row.lon], {
                 title: "Landing Prediction",
                 icon: targetIcon
