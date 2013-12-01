@@ -107,16 +107,11 @@
     });
 	// TODO: Add bounds box for UK only
 
-    var ggl = new L.Google();
-    if (typeof(bing_os) != "undefined") {
-        map.addLayer(bing_os);
-    } else {
-        map.addLayer(osm);
-    }
+    map.addLayer(osm);
 
     var layers = new L.Control.Layers( {'OSM':osm, 'Google Satellite':ggl}, {});
     if (typeof(bing_os) != "undefined") {
-        layers.addBaseLayer(bing_os,'Ordnance Survey (Bing)');
+        layers.addBaseLayer(bing_os,'Ordnance Survey');
     }
     map.addControl(layers);
 
