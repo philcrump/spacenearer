@@ -77,6 +77,7 @@
     var vehCircles=[];
     var vehTails=[];
     var vehPredictions=[];
+    var vehReceiving=[];
     var lastPosId=0;
 	var rxRefreshInterval=60;
 	var vehRefreshInterval=5;
@@ -190,6 +191,7 @@
 	                if(lastPosId==0) map.setView([data[lastIndex].gps_lat,data[lastIndex].gps_lon],8);
 		            setVehPos(data[lastIndex]);
 		            drawVehTail(data);
+		            drawVehReceivers(data[lastIndex])
 		            lastPosId=data[lastIndex].position_id;
 		        }
 	        }
@@ -270,6 +272,31 @@
             ).addTo(map);
         }
     }
+    
+    function drawVehReceivers(row) {
+        if(!vehReceiving[row.vehicle]) {
+            vehReceiving[row.vehicle]=[];
+        }
+        var prevRxes=vehReceiving[row.vehicle].length;
+        for(var k=0; k<prevRxes; k++) {
+            if(vehReceiving[row.vehicle][k]) {
+                map.removeLayer(vehReceiving[row.vehicle][k]);
+            }
+        }
+        var splitRxes=row.callsign.split(",");
+        var rxCount=splitRxes.length; 
+        if(rxCount!=0) {
+            for(var k=0;k<rxCount;k++) {
+                if(rxMarkers[splitRxes[k]]) {
+                    var temp_latlngs=[];
+                    temp_latlngs.push(new L.LatLng(row.gps_lat, row.gps_lon));
+                    temp_latlngs.push(rxMarkers[splitRxes[k]]._latlng);
+                    vehReceiving[row.vehicle][k] = L.polyline(temp_latlngs, {color: 'green', opacity: 1, weight: 2}).addTo(map);
+                }
+            }
+        }
+    }
+            
    
     function drawVehTail(allRows) {
         var allLength = allRows.length;
