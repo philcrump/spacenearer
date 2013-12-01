@@ -99,13 +99,15 @@
     });
 
     //Requires an API Key from https://www.bingmapsportal.com/
-    var bing_os = new L.BingLayer(bing_apikey, {
-        type: 'OrdnanceSurvey',
-        attribution: 'Ordnance Survey maps using Bing maps API',
-        maxZoom: 17,
-        minZoom: 10
-    });
+    if (bing_apikey != '' ) {
+        var bing_os = new L.BingLayer(bing_apikey, {
+            type: 'OrdnanceSurvey',
+            attribution: 'Ordnance Survey maps using Bing maps API',
+            maxZoom: 17,
+            minZoom: 10
+        });
 	// TODO: Add bounds box for UK only
+    }
 
     if (typeof bing_os != 'undefined') {
         map.addLayer(bing_os);
