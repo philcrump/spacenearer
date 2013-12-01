@@ -78,10 +78,13 @@
     var vehCircles=[];
     var vehTails=[];
     var vehPredictions=[];
+    var vehReceiving=[];
     var lastPosId=0;
 	var rxRefreshInterval=60;
 	var vehRefreshInterval=5;
 	var predRefreshInterval=60;
+	
+	payloadCallsign=getUrlVars().filter;
 	
 	var map = L.map('map', {
         center: [50.673, -1.286],
@@ -195,7 +198,7 @@
 	        type: "GET",
 	        dataType: 'json',
 	        data: {
-	            vehicles: "SD3", //TODO: Test with multiple payloads and remove filter
+	            vehicles: payloadCallsign, //TODO: Test with multiple payloads and remove filter
 	            format: "json",
 	            position_id: lastPosId,
 	            max_positions: 0
@@ -207,6 +210,7 @@
 	                if(lastPosId==0) map.setView([data[lastIndex].gps_lat,data[lastIndex].gps_lon],8);
 		            setVehPos(data[lastIndex]);
 		            drawVehTail(data);
+		            drawVehReceivers(data[lastIndex])
 		            lastPosId=data[lastIndex].position_id;
 		        }
 	        }
@@ -221,34 +225,36 @@
 	        success: function( data ) {
 	            var dataLength = data.length;
 	                for (var i=0; i<dataLength; i++) {
-	                    if(!vehPredictions[data[i].vehicle]) {
-	                        vehPredictions[data[i].vehicle]=[];
-	                        pathData = JSON && JSON.parse(data[i].data) || $.parseJSON(data[i].data);
-	                        drawPredTail(pathData,data[i].vehicle); // Render Prediction Path
-	                        var maxAlt=0, maxIndex;
-	                        for(var j=0; j<pathData.length; j++) {
-	                            if(parseFloat(pathData[j].alt)>maxAlt) {
-	                                maxAlt=parseFloat(pathData[j].alt);
-	                                maxIndex=j;
+	                    if(data[i].vehicle==payloadCallsign) {
+	                        if(!vehPredictions[data[i].vehicle]) {
+	                            vehPredictions[data[i].vehicle]=[];
+	                            pathData = JSON && JSON.parse(data[i].data) || $.parseJSON(data[i].data);
+	                            drawPredTail(pathData,data[i].vehicle); // Render Prediction Path
+	                            var maxAlt=0, maxIndex;
+	                            for(var j=0; j<pathData.length; j++) {
+	                                if(parseFloat(pathData[j].alt)>maxAlt) {
+	                                    maxAlt=parseFloat(pathData[j].alt);
+	                                    maxIndex=j;
+	                                }
 	                            }
-	                        }
-	                        if(typeof pathData[maxIndex]!='undefined') {
-	                            drawPredBurst(pathData[maxIndex],data[i].vehicle) // Render Burst Point
-	                            drawPredTarget(pathData[pathData.length-1],data[i].vehicle) // Render Landing Point
-	                        }
-                        } else {
-                            pathData = JSON && JSON.parse(data[i].data) || $.parseJSON(data[i].data);
-                            drawPredTail(pathData,data[i].vehicle); // Render Prediction Path
-	                        var maxAlt=0, maxIndex;
-	                        for(var j=0; j<pathData.length; j++) {
-	                            if(parseFloat(pathData[j].alt)>maxAlt) {
-	                                maxAlt=parseFloat(pathData[j].alt);
-	                                maxIndex=j;
+	                            if(typeof pathData[maxIndex]!='undefined') {
+	                                drawPredBurst(pathData[maxIndex],data[i].vehicle) // Render Burst Point
+	                                drawPredTarget(pathData[pathData.length-1],data[i].vehicle) // Render Landing Point
 	                            }
-	                        }
-	                        if(typeof pathData[maxIndex]!='undefined') {
-	                            drawPredBurst(pathData[maxIndex],data[i].vehicle) // Render Burst Point
-	                            drawPredTarget(pathData[pathData.length-1],data[i].vehicle) // Render Landing Point
+                            } else {
+                                pathData = JSON && JSON.parse(data[i].data) || $.parseJSON(data[i].data);
+                                drawPredTail(pathData,data[i].vehicle); // Render Prediction Path
+	                            var maxAlt=0, maxIndex;
+	                            for(var j=0; j<pathData.length; j++) {
+	                                if(parseFloat(pathData[j].alt)>maxAlt) {
+	                                    maxAlt=parseFloat(pathData[j].alt);
+	                                    maxIndex=j;
+	                                }
+	                            }
+	                            if(typeof pathData[maxIndex]!='undefined') {
+	                                drawPredBurst(pathData[maxIndex],data[i].vehicle) // Render Burst Point
+	                                drawPredTarget(pathData[pathData.length-1],data[i].vehicle) // Render Landing Point
+	                            }
 	                        }
 	                    }
                     }
@@ -285,6 +291,31 @@
             ).addTo(map);
         }
     }
+    
+    function drawVehReceivers(row) {
+        if(!vehReceiving[row.vehicle]) {
+            vehReceiving[row.vehicle]=[];
+        }
+        var prevRxes=vehReceiving[row.vehicle].length;
+        for(var k=0; k<prevRxes; k++) {
+            if(vehReceiving[row.vehicle][k]) {
+                map.removeLayer(vehReceiving[row.vehicle][k]);
+            }
+        }
+        var splitRxes=row.callsign.split(",");
+        var rxCount=splitRxes.length; 
+        if(rxCount!=0) {
+            for(var k=0;k<rxCount;k++) {
+                if(rxMarkers[splitRxes[k]]) {
+                    var temp_latlngs=[];
+                    temp_latlngs.push(new L.LatLng(row.gps_lat, row.gps_lon));
+                    temp_latlngs.push(rxMarkers[splitRxes[k]]._latlng);
+                    vehReceiving[row.vehicle][k] = L.polyline(temp_latlngs, {color: 'green', opacity: 1, weight: 2}).addTo(map);
+                }
+            }
+        }
+    }
+            
    
     function drawVehTail(allRows) {
         var allLength = allRows.length;
@@ -333,18 +364,15 @@
     }
     
     function drawPredTail(allRows,vehicle) {
-        var allLength = allRows.length;
         if(vehPredictions[vehicle][0]) {
-            for (var i=0; i<allLength; i++) {
-                vehPredictions[vehicle][0].addLatLng(new L.LatLng(allRows[i].lat, allRows[i].lon));
-            }
-        } else {
-            var temp_latlngs = [];
-            for (var i=0; i<allLength; i++) {
-                temp_latlngs.push(new L.LatLng(allRows[i].lat, allRows[i].lon));
-            }
-           vehPredictions[vehicle][0] = L.polyline(temp_latlngs, {color: 'red', opacity: 0.4, weight: 3}).addTo(map);
+            map.removeLayer(vehPredictions[vehicle][0]);
         }
+        var allLength = allRows.length;
+        var temp_latlngs = [];
+        for (var i=0; i<allLength; i++) {
+            temp_latlngs.push(new L.LatLng(allRows[i].lat, allRows[i].lon));
+        }
+       vehPredictions[vehicle][0] = L.polyline(temp_latlngs, {color: 'red', opacity: 0.4, weight: 3}).addTo(map);
     }
     
     function popupHtml(position) {
@@ -369,6 +397,18 @@
         var slant = rad*(Math.cos(Math.PI/2+elva)+Math.sqrt(Math.pow(Math.cos(Math.PI/2+elva),2)+h*(2*rad+h)/Math.pow(rad,2)));
         return 1000*(Math.acos((Math.pow(rad,2)+Math.pow(rad+h,2)-Math.pow(slant,2))/(2*rad*(rad+h)))*rad);
     }
+    // Read a page's GET URL variables and return them as an associative array.
+	function getUrlVars()
+	{
+	    var vars = [], hash;
+	    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+	    for(var i = 0; i < hashes.length; i++) {
+			hash = hashes[i].split('=');
+			vars.push(hash[0]);
+			vars[hash[0]] = hash[1];
+	    }
+	    return vars;
+	}
 </script>
 <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
