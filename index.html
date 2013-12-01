@@ -110,8 +110,9 @@
     map.addLayer(osm);
     
     var ggl = new L.Google();
+    var gglt = new L.Google('TERRAIN');
 
-    var layers = new L.Control.Layers( {'OSM':osm, 'Google Satellite':ggl}, {});
+    var layers = new L.Control.Layers( {'OSM':osm, 'Google Satellite':ggl, 'Google Terrain':gglt}, {});
     if (typeof(bing_os) != "undefined") {
         layers.addBaseLayer(bing_os,'Ordnance Survey');
     }
