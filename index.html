@@ -108,6 +108,8 @@
 	// TODO: Add bounds box for UK only
 
     map.addLayer(osm);
+    
+    var ggl = new L.Google();
 
     var layers = new L.Control.Layers( {'OSM':osm, 'Google Satellite':ggl}, {});
     if (typeof(bing_os) != "undefined") {
