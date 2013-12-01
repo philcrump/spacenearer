@@ -290,6 +290,7 @@
             vehPredictions[vehicle][1].bindPopup(moment.unix(row.time).format("HH:mm:ss")+" UTC");
             vehPredictions[vehicle][1].update();
         } else {
+            map.removeLayer(vehPredictions[vehicle][1]);
             vehPredictions[vehicle][1] = L.marker([row.lat,row.lon], {
                 title: "Burst Prediction",
                 icon: burstIcon
@@ -305,6 +306,7 @@
             vehPredictions[vehicle][2].bindPopup(moment.unix(row.time).format("HH:mm:ss")+" UTC");
             vehPredictions[vehicle][2].update();
         } else {
+            map.removeLayer(vehPredictions[vehicle][2]);
             vehPredictions[vehicle][2] = L.marker([row.lat,row.lon], {
                 title: "Landing Prediction",
                 icon: targetIcon
@@ -314,7 +316,9 @@
     }
     
     function drawPredTail(allRows,vehicle) {
-        vehPredictions[vehicle][0]=null;
+        if(vehPredictions[vehicle][0]) {
+            map.removeLayer(vehPredictions[vehicle][0]);
+        }
         var allLength = allRows.length;
         var temp_latlngs = [];
         for (var i=0; i<allLength; i++) {
