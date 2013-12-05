@@ -212,11 +212,14 @@
                                 return ( element.vehicle==data[i].vehicle );
                             });
 	                        lastIndex=tmpData.length-1;
-	                        if(lastPosId==0) map.setView([tmpData[lastIndex].gps_lat,tmpData[lastIndex].gps_lon],8);
-		                    setVehPos(tmpData[lastIndex]);
-		                    drawVehTail(tmpData);
-		                    drawVehReceivers(tmpData[lastIndex]);
-		                    lastPosId=tmpData[lastIndex].position_id;
+	                        callsignLen = data[i].vehicle.length;
+	                        if(data[i].vehicle.substring(callsignLen-6,callsignLen)!="_chase") {
+	                            if(lastPosId==0) map.setView([tmpData[lastIndex].gps_lat,tmpData[lastIndex].gps_lon],8);
+		                        setVehPos(tmpData[lastIndex]);
+		                        drawVehTail(tmpData);
+		                        drawVehReceivers(tmpData[lastIndex]);
+		                        lastPosId=tmpData[lastIndex].position_id;
+		                    }
 		                }
 		            }
 		        }
