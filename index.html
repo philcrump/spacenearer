@@ -417,11 +417,11 @@
             document.getElementById("box-payloads").appendChild(container);
         }
 
-        var html= '<ul><li>Payload: '  + row.vehicle + '</li>'
-                +     '<li>GPS Time: '  + row.gps_time + '</li>'
-                +     '<li>Latitude: '  + row.gps_lat + '</li>'
-                +     '<li>Longitude: '  + row.gps_lon + '</li>'
-                +     '<li>Altitude: '  + row.gps_alt + '</li>';
+        var html= '<h3>'  + row.vehicle + '</h3>'
+                +     '<h4>GPS Time: '  + row.gps_time + '</h4>'
+                +     '<h4>Latitude: '  + row.gps_lat + '</h4>'
+                +     '<h4>Longitude: '  + row.gps_lon + '</h4>'
+                +     '<h4>Altitude: '  + row.gps_alt + '</h4>';
 
         container.innerHTML = html;
     }
