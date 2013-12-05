@@ -209,7 +209,7 @@
 	                for (var i=0; i<data.length; i++) {
 	                    if(typeof dataVehicles[data[i].vehicle]=='undefined') {
 	                        dataVehicles[data[i].vehicle]=1;
-	                        tmpData = $.grep(data, function( element ) {
+	                        tmpData = $.grep(data, function( element, index ) {
                                 return ( element.vehicle==data[i].vehicle );
                             });
 	                        lastIndex=tmpData.length-1;
