@@ -225,9 +225,11 @@
 		                        setVehPos(tmpData[lastIndex]);
 		                        drawVehTail(tmpData);
 		                        drawVehReceivers(tmpData[lastIndex]);
-		                        lastPosId=tmpData[lastIndex].position_id;
 		                    } else {
 		                        setCarPos(tmpData[lastIndex]);
+		                    }
+		                    if(lastPosId<tmpData[lastIndex].position_id) {
+		                        lastPosId=tmpData[lastIndex].position_id;
 		                    }
 		                }
 		            }
