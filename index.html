@@ -87,6 +87,7 @@
 	
 	
     var balloonColours=[];
+    var carColours=[];
 	
 	payloadCallsign=getUrlVars().filter;
 	
@@ -141,13 +142,33 @@
         iconAnchor:   [17, 16], // point of the icon which will correspond to marker's location
         popupAnchor: [0, -32]
     });
-    chaseIcon = L.icon({
-        // TODO select from red/green/blue
-        iconUrl: 'static/images/car-blue.png',
-        iconSize:     [55, 25], // size of the icon
-        iconAnchor:   [28, 25], // point of the icon which will correspond to marker's location
-        popupAnchor: [0, -25]
-    });
+    
+    function chasecarIconFactory(iconCallsign) {
+        if(typeof carColours['blue']=='undefined') {
+            var iconColour='static/images/car-blue.png';
+            carColours['blue'] = iconCallsign;
+        } else {
+            if(typeof carColours['green']=='undefined') {
+                var iconColour='static/images/car-green.png';
+                carColours['green'] = iconCallsign;
+            } else {
+                if(typeof carColours['red']=='undefined') {
+                    var iconColour='static/images/car-red.png';
+                    carColours['red'] = iconCallsign;
+                } else {
+                    // Give up, make it blue
+                    var iconColour='static/images/car-blue.png';
+                }
+            }
+        }
+       
+        return L.icon({
+            iconUrl: iconColour,
+            iconSize:     [55, 25], // size of the icon
+            iconAnchor:   [28, 25], // point of the icon which will correspond to marker's location
+            popupAnchor: [0, -25]
+        });
+    }
     
     function balloonIconFactory(iconCallsign,altitude) {
         if(typeof balloonColours['red']=='undefined') {
@@ -340,7 +361,7 @@
         } else {
             vehMarkers[row.vehicle] = L.marker([row.gps_lat,row.gps_lon], {
                 title: row.vehicle,
-                icon: chaseIcon
+                icon: chasecarIconFactory(row.vehicle)
             }).addTo(map);
             vehMarkers[row.vehicle].bindPopup(popupHtml(row));
         }
