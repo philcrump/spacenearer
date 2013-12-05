@@ -129,12 +129,7 @@
 	// TODO: Add bounds box for UK only
     }
 
-    if (typeof bing_os != 'undefined') {
-        map.addLayer(bing_os);
-        map.setZoom(10);
-    } else {
-        map.addLayer(osm);
-    }
+    map.addLayer(osm);
     
     var ggl = new L.Google();
     var gglt = new L.Google('TERRAIN');
