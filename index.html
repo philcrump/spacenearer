@@ -326,7 +326,6 @@
     
     function setVehPos(row) {
         if(vehMarkers[row.vehicle]) {
-        	vehMarkers[row.vehicle].closePopup(); // TODO: Leaflet bug where it doesn't move the popup (was in v0.6?)
             vehMarkers[row.vehicle].setLatLng([row.gps_lat,row.gps_lon]);
             vehMarkers[row.vehicle].setPopupContent(popupHtml(row));
             vehCircles[row.vehicle][0].setLatLng([row.gps_lat,row.gps_lon]);
@@ -355,7 +354,6 @@
     
     function setCarPos(row) {
         if(vehMarkers[row.vehicle]) {
-        	vehMarkers[row.vehicle].closePopup(); // TODO: Leaflet bug where it doesn't move the popup (was in v0.6?)
             vehMarkers[row.vehicle].setLatLng([row.gps_lat,row.gps_lon]);
             vehMarkers[row.vehicle].setPopupContent(popupHtml(row));
         } else {
@@ -410,7 +408,6 @@
     
     function drawPredBurst(row,vehicle) {
         if(vehPredictions[vehicle][1]) {
-        	vehPredictions[vehicle][1].closePopup(); // TODO: Leaflet bug where it doesn't move the popup (was in v0.6?)
             vehPredictions[vehicle][1].setLatLng([row.lat,row.lon]);
             vehPredictions[vehicle][1].setPopupContent(moment.unix(row.time).format("HH:mm:ss")+" UTC");
         } else {
@@ -424,7 +421,6 @@
     
     function drawPredTarget(row,vehicle) {
         if(vehPredictions[vehicle][2]) {
-        	vehPredictions[vehicle][2].closePopup(); // TODO: Leaflet bug where it doesn't move the popup (was in v0.6?)
             vehPredictions[vehicle][2].setLatLng([row.lat,row.lon]);
             vehPredictions[vehicle][2].setPopupContent(moment.unix(row.time).format("HH:mm:ss")+" UTC");
         } else {
