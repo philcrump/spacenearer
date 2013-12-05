@@ -85,6 +85,9 @@
 	var vehRefreshInterval=5;
 	var predRefreshInterval=60;
 	
+	
+    var balloonColours=[];
+	
 	payloadCallsign=getUrlVars().filter;
 	
 	var map = L.map('map', {
@@ -146,10 +149,27 @@
         popupAnchor: [0, -25]
     });
     
-    function balloonIconFactory(iconId,altitude) { // Just to annoy Java geeks
-        //TODO use iconId to select red/green/blue balloon icon
+    function balloonIconFactory(iconCallsign,altitude) {
+        if(typeof balloonColours['red']=='undefined') {
+            var iconColour='static/images/balloon-red.png';
+            balloonColours['red'] = iconCallsign;
+        } else {
+            if(typeof balloonColours['blue']=='undefined') {
+                var iconColour='static/images/balloon-blue.png';
+                balloonColours['blue'] = iconCallsign;
+            } else {
+                if(typeof balloonColours['green']=='undefined') {
+                    var iconColour='static/images/balloon-green.png';
+                    balloonColours['green'] = iconCallsign;
+                } else {
+                    // Give up, make it red
+                    var iconColour='static/images/balloon-red.png';
+                }
+            }
+       }
+            
         return L.icon({
-            iconUrl: 'static/images/balloon-red.png',
+            iconUrl: iconColour,
             iconSize:     [46, 84], // size of the icon
             iconAnchor:   [23, 80+Math.round(altitude/1000)], // point of the icon which will correspond to marker's location
             shadowUrl: 'static/images/shadow.png',
