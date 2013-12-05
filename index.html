@@ -138,6 +138,13 @@
         iconAnchor:   [17, 16], // point of the icon which will correspond to marker's location
         popupAnchor: [0, -32]
     });
+    chaseIcon = L.icon({
+        // TODO select from red/green/blue
+        iconUrl: 'static/images/car-blue.png',
+        iconSize:     [55, 25], // size of the icon
+        iconAnchor:   [28, 25], // point of the icon which will correspond to marker's location
+        popupAnchor: [0, -25]
+    });
     
     function balloonIconFactory(iconId,altitude) { // Just to annoy Java geeks
         //TODO use iconId to select red/green/blue balloon icon
@@ -219,6 +226,8 @@
 		                        drawVehTail(tmpData);
 		                        drawVehReceivers(tmpData[lastIndex]);
 		                        lastPosId=tmpData[lastIndex].position_id;
+		                    } else {
+		                        setCarPos(tmpData[lastIndex]);
 		                    }
 		                }
 		            }
@@ -299,6 +308,21 @@
                 subhorizon_radius(row.gps_alt),
                 {color: "#00FF00", fill: false}
             ).addTo(map);
+        }
+    }
+    
+    function setCarPos(row) {
+        if(vehMarkers[row.vehicle]) {
+        	vehMarkers[row.vehicle].closePopup(); // TODO: Leaflet bug where it doesn't move the popup (was in v0.6?)
+            vehMarkers[row.vehicle].setLatLng([row.gps_lat,row.gps_lon]);
+            vehMarkers[row.vehicle].bindPopup(popupHtml(row));
+            vehMarkers[row.vehicle].update(); // TODO: Do we really need to call .update() the whole time?
+        } else {
+            vehMarkers[row.vehicle] = L.marker([row.gps_lat,row.gps_lon], {
+                title: row.vehicle,
+                icon: chaseIcon
+            }).addTo(map);
+            vehMarkers[row.vehicle].bindPopup(popupHtml(row));
         }
     }
     
