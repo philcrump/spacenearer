@@ -197,20 +197,31 @@
 	        type: "GET",
 	        dataType: 'json',
 	        data: {
-	            vehicles: payloadCallsign, //TODO: Test with multiple payloads and remove filter
-	            format: "json",
+                format: "json",
 	            position_id: lastPosId,
 	            max_positions: 0
 	        },
 	        success: function( jsonData ) {
 	            data = jsonData.positions.position;
 	            if(data.length!=0) {
-	                lastIndex=data.length-1;
-	                if(lastPosId==0) map.setView([data[lastIndex].gps_lat,data[lastIndex].gps_lon],8);
-		            setVehPos(data[lastIndex]);
-		            drawVehTail(data);
-		            drawVehReceivers(data[lastIndex])
-		            lastPosId=data[lastIndex].position_id;
+	                var dataVehicles=[];
+	                for (var i=0; i<data.length; i++) {
+	                    if(typeof dataVehicles[data[i].vehicle]=='undefined') {
+	                        dataVehicles[data[i].vehicle]=1;
+	                        tmpData = $.grep(data, function( element, index ) {
+                                return ( element.vehicle==data[i].vehicle );
+                            });
+	                        lastIndex=tmpData.length-1;
+	                        callsignLen = data[i].vehicle.length;
+	                        if(data[i].vehicle.substring(callsignLen-6,callsignLen)!="_chase") {
+	                            if(lastPosId==0) map.setView([tmpData[lastIndex].gps_lat,tmpData[lastIndex].gps_lon],8);
+		                        setVehPos(tmpData[lastIndex]);
+		                        drawVehTail(tmpData);
+		                        drawVehReceivers(tmpData[lastIndex]);
+		                        lastPosId=tmpData[lastIndex].position_id;
+		                    }
+		                }
+		            }
 		        }
 	        }
         });
@@ -262,28 +273,28 @@
     }
     
     function setVehPos(row) {
-        if(vehMarkers[row.mission_id]) {
-        	vehMarkers[row.mission_id].closePopup(); // TODO: Leaflet bug where it doesn't move the popup (was in v0.6?)
-            vehMarkers[row.mission_id].setLatLng([row.gps_lat,row.gps_lon]);
-            vehMarkers[row.mission_id].bindPopup(popupHtml(row));
-            vehMarkers[row.mission_id].update(); // TODO: Do we really need to call .update() the whole time?
-            vehCircles[row.mission_id][0].setLatLng([row.gps_lat,row.gps_lon]);
-            vehCircles[row.mission_id][1].setLatLng([row.gps_lat,row.gps_lon]);
-            vehCircles[row.mission_id][0].setRadius(Math.sqrt(12.756*row.gps_alt)*1000);
-            vehCircles[row.mission_id][1].setRadius(subhorizon_radius(row.gps_alt));
+        if(vehMarkers[row.vehicle]) {
+        	vehMarkers[row.vehicle].closePopup(); // TODO: Leaflet bug where it doesn't move the popup (was in v0.6?)
+            vehMarkers[row.vehicle].setLatLng([row.gps_lat,row.gps_lon]);
+            vehMarkers[row.vehicle].bindPopup(popupHtml(row));
+            vehMarkers[row.vehicle].update(); // TODO: Do we really need to call .update() the whole time?
+            vehCircles[row.vehicle][0].setLatLng([row.gps_lat,row.gps_lon]);
+            vehCircles[row.vehicle][1].setLatLng([row.gps_lat,row.gps_lon]);
+            vehCircles[row.vehicle][0].setRadius(Math.sqrt(12.756*row.gps_alt)*1000);
+            vehCircles[row.vehicle][1].setRadius(subhorizon_radius(row.gps_alt));
         } else {
-            vehMarkers[row.mission_id] = L.marker([row.gps_lat,row.gps_lon], {
+            vehMarkers[row.vehicle] = L.marker([row.gps_lat,row.gps_lon], {
                 title: row.vehicle,
-                icon: balloonIconFactory(row.mission_id,row.gps_alt)
+                icon: balloonIconFactory(row.vehicle,row.gps_alt)
             }).addTo(map);
-            vehMarkers[row.mission_id].bindPopup(popupHtml(row));
-            vehCircles[row.mission_id]=[];
-            vehCircles[row.mission_id][0] = L.circle(
+            vehMarkers[row.vehicle].bindPopup(popupHtml(row));
+            vehCircles[row.vehicle]=[];
+            vehCircles[row.vehicle][0] = L.circle(
                 [row.gps_lat,row.gps_lon],
                 Math.sqrt(12.756*row.gps_alt)*1000,
                 {color: "#0000FF", fill: false}
             ).addTo(map);
-            vehCircles[row.mission_id][1] = L.circle(
+            vehCircles[row.vehicle][1] = L.circle(
                 [row.gps_lat,row.gps_lon],
                 subhorizon_radius(row.gps_alt),
                 {color: "#00FF00", fill: false}
@@ -318,7 +329,7 @@
    
     function drawVehTail(allRows) {
         var allLength = allRows.length;
-        var tmp_vehId = allRows[0].mission_id;
+        var tmp_vehId = allRows[0].vehicle;
         if(vehTails[tmp_vehId]) {
             for (var i=0; i<allLength; i++) {
                 vehTails[tmp_vehId].addLatLng(new L.LatLng(allRows[i].gps_lat, allRows[i].gps_lon));
