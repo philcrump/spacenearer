@@ -288,7 +288,6 @@
         	vehMarkers[row.vehicle].closePopup(); // TODO: Leaflet bug where it doesn't move the popup (was in v0.6?)
             vehMarkers[row.vehicle].setLatLng([row.gps_lat,row.gps_lon]);
             vehMarkers[row.vehicle].bindPopup(popupHtml(row));
-            vehMarkers[row.vehicle].update(); // TODO: Do we really need to call .update() the whole time?
             vehCircles[row.vehicle][0].setLatLng([row.gps_lat,row.gps_lon]);
             vehCircles[row.vehicle][1].setLatLng([row.gps_lat,row.gps_lon]);
             vehCircles[row.vehicle][0].setRadius(Math.sqrt(12.756*row.gps_alt)*1000);
@@ -318,7 +317,6 @@
         	vehMarkers[row.vehicle].closePopup(); // TODO: Leaflet bug where it doesn't move the popup (was in v0.6?)
             vehMarkers[row.vehicle].setLatLng([row.gps_lat,row.gps_lon]);
             vehMarkers[row.vehicle].bindPopup(popupHtml(row));
-            vehMarkers[row.vehicle].update(); // TODO: Do we really need to call .update() the whole time?
         } else {
             vehMarkers[row.vehicle] = L.marker([row.gps_lat,row.gps_lon], {
                 title: row.vehicle,
@@ -374,7 +372,6 @@
         	vehPredictions[vehicle][1].closePopup(); // TODO: Leaflet bug where it doesn't move the popup (was in v0.6?)
             vehPredictions[vehicle][1].setLatLng([row.lat,row.lon]);
             vehPredictions[vehicle][1].bindPopup(moment.unix(row.time).format("HH:mm:ss")+" UTC");
-            vehPredictions[vehicle][1].update();
         } else {
             vehPredictions[vehicle][1] = L.marker([row.lat,row.lon], {
                 title: "Burst Prediction",
@@ -389,7 +386,6 @@
         	vehPredictions[vehicle][2].closePopup(); // TODO: Leaflet bug where it doesn't move the popup (was in v0.6?)
             vehPredictions[vehicle][2].setLatLng([row.lat,row.lon]);
             vehPredictions[vehicle][2].bindPopup(moment.unix(row.time).format("HH:mm:ss")+" UTC");
-            vehPredictions[vehicle][2].update();
         } else {
             vehPredictions[vehicle][2] = L.marker([row.lat,row.lon], {
                 title: "Landing Prediction",
