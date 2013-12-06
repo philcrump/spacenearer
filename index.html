@@ -69,6 +69,7 @@
              font-family: Helvetica,"Lucida Grande",Verdana,Arial;
              font-size: 12px;
             line-height: 0.75em;
+            display: none;
     }
     .vehicle_box {
         margin-top: 2.5em;
@@ -419,6 +420,7 @@
             container.setAttribute('class', 'vehicle_box');
             container.setAttribute('id', 'vehicle' + row.vehicle);
             document.getElementById("box-payloads").appendChild(container);
+            $("#box-payloads").show();
         }
 
         var html= '<h3>'  + row.vehicle + '</h3>'
