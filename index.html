@@ -366,9 +366,7 @@
 		                    if(typeof payloadData[data[i].vehicle]=='undefined') {
 		                        payloadData[data[i].vehicle]=[];
 		                    }
-		                    for (var j=0; j<tmpData.length; j++) {
-		                        payloadData[data[i].vehicle].push(tmpData[j]); // TODO: Should we be using .merge instead?
-		                    }
+		                    $.merge(payloadData[data[i].vehicle],tmpData);
 		                }
 		            }
 		        }
