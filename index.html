@@ -96,9 +96,11 @@
     <div id="map"></div>
     <div id="box-status" class="box">
             <h1 style="text-align:center;">HAB Tracker Map</h1>
+            <h4 class="page-loading" style="text-align:center;">Loading Data..</h4>
     </div>
     <div id="box-mobile-status" class="box">
             <h2 style="text-align:center;">HAB Tracker Map</h2>
+            <h4 class="page-loading" style="text-align:center;">Loading Data..</h4>
     </div>
     <div id="box-payloads" class="box">
     </div>
@@ -116,6 +118,7 @@
 <script src="apikeys.js"></script>
 <script src="https://maps.google.com/maps/api/js?v=3&key=AIzaSyC9XjZwvS6zn_COxONWADDpJ7Fioe26tjo&sensor=false"></script>
 <script>
+    var pageStarting=true;
     var rxMarkers=[];
     var vehMarkers=[];
     var vehCircles=[];
@@ -368,6 +371,10 @@
 		                    }
 		                    $.merge(payloadData[data[i].vehicle],tmpData);
 		                }
+		            }
+		            if(pageStarting) {
+		                pageStarting=false;
+		                $(".page-loading").hide();
 		            }
 		        }
 	        }
