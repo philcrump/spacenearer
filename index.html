@@ -267,7 +267,7 @@
     
     $('.graph_show').click(function( event ) { // target id will be eg. FIZZLE_grphbtn
         var wantedVehicle = event.currentTarget.id.substring(0,event.currentTarget.id.length-8); // eg FIZZLE
-        if($.inArray('sel_alt', event.currentTarget.classList)) {
+        if($.inArray('graph_alt', event.currentTarget.classList)) {
             create_graph(wantedVehicle, 'gps_alt', 'Altitude');
         }
         $("#box-graph").show();
@@ -488,7 +488,7 @@
                 +     '<h4>GPS Time: '  + row.gps_time + '</h4>'
                 +     '<h4>Latitude: '  + row.gps_lat + '</h4>'
                 +     '<h4>Longitude: '  + row.gps_lon + '</h4>'
-                +     '<h4>Altitude: '  + row.gps_alt + '</h4>';
+                +     '<h4><span id="'+row.vehicle+'_grphbtn" class="graph_show graph_alt">Altitude:</span> '  + row.gps_alt + '</h4>';
 
         container.innerHTML = html;
     }
