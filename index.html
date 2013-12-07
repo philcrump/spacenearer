@@ -291,8 +291,9 @@
     
     $('.graph_hide').click(function() {
         $("#box-graph").hide();
+	currentGraphObj.destroy();
         delete currentGraphObj;
-        delete currentGraphData
+        currentGraphData = null;
     });
     
     function refreshReceivers() {
