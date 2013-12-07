@@ -283,9 +283,9 @@
         currentGraphObj = new Dygraph(
             document.getElementById("graph-div"),
             currentGraphData, {
-                title: dataName,
+                title: callsign+" "+dataName,
                 fillGraph: true,
-                ylabel: 'm',
+                ylabel: 'Altitude (m)',
                 labels: ['Time', dataName]
         });
     }
