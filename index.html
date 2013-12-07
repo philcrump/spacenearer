@@ -266,7 +266,7 @@
     $(document.body).on('click', '.graph_show' ,function(event){ // target id will be eg. FIZZLE_grphbtn
         $("#box-graph").show();
         var wantedVehicle = event.currentTarget.id.substring(0,event.currentTarget.id.length-8); // eg FIZZLE
-        if($.inArray('graph_alt', event.currentTarget.classList)) {
+        if($.inArray('graph_alt', event.currentTarget.classList)!=-1) {
             create_graph(wantedVehicle, false, 'gps_alt', 'Altitude', 'm');
         } else if($.inArray('graph_inttemp', event.currentTarget.classList)!=-1) {
             create_graph(wantedVehicle, false, 'temp_inside', 'Internal Temperature', '°c');
