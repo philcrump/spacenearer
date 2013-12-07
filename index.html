@@ -267,11 +267,11 @@
         $("#box-graph").show();
         var wantedVehicle = event.currentTarget.id.substring(0,event.currentTarget.id.length-8); // eg FIZZLE
         if($.inArray('graph_alt', event.currentTarget.classList)) {
-            create_graph(wantedVehicle, 'gps_alt', 'Altitude');
+            create_graph(wantedVehicle, 'gps_alt', 'Altitude', 'm');
         }
     });
         
-    function create_graph( callsign, dataKey, dataName) {
+    function create_graph( callsign, dataKey, dataName, dataUnits) {
         currentGraphData = [];
         for (var i=0; i<payloadData[callsign].length; i++) {
             currentGraphData[i] = [];
@@ -283,7 +283,7 @@
             currentGraphData, {
                 title: callsign+" "+dataName,
                 fillGraph: true,
-                ylabel: 'Altitude (m)',
+                ylabel: dataName+" ("+dataUnits+")",
                 labels: ['Time', dataName]
         });
     }
