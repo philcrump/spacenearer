@@ -285,7 +285,7 @@
             currentGraphData[i] = [];
             currentGraphData[i][0] = new Date(payloadData[callsign][i]['gps_time']);
             if(dataArray) {
-                currentGraphData[i][1] = Number(payloadData[callsign][i]['data'][dataKey]);
+                currentGraphData[i][1] = Number(JSON.parse(payloadData[callsign][i]['data'])[dataKey]);
             } else {
                 currentGraphData[i][1] = Number(payloadData[callsign][i][dataKey]);
             }
@@ -505,8 +505,9 @@
         if(row.temp_inside!="") {
                 html+='<h4><a href="#" id="'+row.vehicle+'_grphbtn" class="graph_show graph_inttemp">Internal Temperature:</a> '  + row.temp_inside + ' °c</h4>';
         }
-        if(typeof row.data.temperature_external!='undefined') {
-                html+='<h4><a href="#" id="'+row.vehicle+'_grphbtn" class="graph_show graph_exttemp">External Temperature:</a> '  + row.data.temperature_external + ' °c</h4>';
+        var extraData=JSON.parse(row.data);
+        if(typeof extraData.temperature_external!='undefined') {
+                html+='<h4><a href="#" id="'+row.vehicle+'_grphbtn" class="graph_show graph_exttemp">External Temperature:</a> '  + extraData.temperature_external + ' °c</h4>';
         }
 
         container.innerHTML = html;
