@@ -286,7 +286,7 @@
         currentGraphData = [];
         for (var i=0; i<payloadData[callsign].length; i++) {
             currentGraphData[i] = [];
-            currentGraphData[i][0] = moment(payloadData[callsign][i]['gps_time'], "YYYY-MM-DD HH:mm:ss").toDate();
+            currentGraphData[i][0] = moment(payloadData[callsign][i]['gps_time'], "YYYY-MM-DD HH:mm:ss").toDate(); // TODO: Write a custom, faster parser?
             if(dataArray) {
                 currentGraphData[i][1] = Number(JSON.parse(payloadData[callsign][i]['data'])[dataKey]);
             } else {
