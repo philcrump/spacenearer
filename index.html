@@ -268,13 +268,13 @@
         var wantedVehicle = event.currentTarget.id.substring(0,event.currentTarget.id.length-8); // eg FIZZLE
         if($.inArray('graph_alt', event.currentTarget.classList)) {
             create_graph(wantedVehicle, false, 'gps_alt', 'Altitude', 'm');
-        } else if($.inArray('graph_inttemp', event.currentTarget.classList)) {
+        } else if($.inArray('graph_inttemp', event.currentTarget.classList)!=-1) {
             create_graph(wantedVehicle, false, 'temp_inside', 'Internal Temperature', '°c');
-        } else if($.inArray('graph_exttemp', event.currentTarget.classList)) {
+        } else if($.inArray('graph_exttemp', event.currentTarget.classList)!=-1) {
             create_graph(wantedVehicle, true, 'temperature_external', 'External Temperature', '°c');
-        } else if($.inArray('graph_battraw', event.currentTarget.classList)) {
+        } else if($.inArray('graph_battraw', event.currentTarget.classList)!=-1) {
             create_graph(wantedVehicle, true, 'battery_raw', 'Raw Battery Value', '?');
-        } else if($.inArray('graph_pressure', event.currentTarget.classList)) {
+        } else if($.inArray('graph_pressure', event.currentTarget.classList)!=-1) {
             create_graph(wantedVehicle, true, 'pressure', 'Pressure', 'mbar');
         }
     });
