@@ -274,7 +274,7 @@
         
     function create_graph( callsign, dataKey, dataName) {
         currentGraphData = [];
-        for (var i=0; i<payloadData[callsign]; i++) {
+        for (var i=0; i<payloadData[callsign].length; i++) {
             currentGraphData[i] = [];
             currentGraphData[i][0] = new Date(payloadData[callsign][i]['gps_time']);
             currentGraphData[i][1] = Number(payloadData[callsign][i][dataKey]);
