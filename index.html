@@ -265,7 +265,7 @@
     setInterval(refreshVehicles,vehRefreshInterval*1000);
     setInterval(refreshPredictions,predRefreshInterval*1000);
     
-    $('.graph_show').click(function( event ) { // target id will be eg. FIZZLE_grphbtn
+    $(document.body).on('click', '.graph_show' ,function(event){ // target id will be eg. FIZZLE_grphbtn
         var wantedVehicle = event.currentTarget.id.substring(0,event.currentTarget.id.length-8); // eg FIZZLE
         if($.inArray('graph_alt', event.currentTarget.classList)) {
             create_graph(wantedVehicle, 'gps_alt', 'Altitude');
