@@ -358,6 +358,9 @@
 	                        callsignLen = data[i].vehicle.length;
 	                        if(data[i].vehicle.substring(callsignLen-6,callsignLen)!="_chase") {
 	                            if(lastPosId==0) map.setView([tmpData[lastIndex].gps_lat,tmpData[lastIndex].gps_lon],8);
+	                            if(typeof lastAlt[data[i].vehicle]=='undefined') {
+	                                lastAlt[data[i].vehicle]=tmpData[lastIndex-1].gps_alt;
+	                            }
 		                        setVehPos(tmpData[lastIndex]);
 		                        setVehInfo(tmpData[lastIndex]);
 		                        drawVehTail(tmpData);
@@ -509,11 +512,7 @@
                 +     '<h4>GPS Time: '  + row.gps_time + '</h4>'
                 +     '<h4>Latitude: '  + row.gps_lat + '</h4>'
                 +     '<h4>Longitude: '  + row.gps_lon + '</h4>';
-        if(typeof lastAlt[row.vehicle]=='undefined') {
-            html+='<h4><a href="#" id="'+row.vehicle+'_grphbtn" class="graph_show graph_alt">Altitude:</a> '  + row.gps_alt + ' m</h4>';
-        } else {
-            html+='<h4><a href="#" id="'+row.vehicle+'_grphbtn" class="graph_show graph_alt">Altitude:</a> '  + row.gps_alt + ' m ('+(row.gps_alt-lastAlt)+'</h4>';
-        }
+        html+='<h4><a href="#" id="'+row.vehicle+'_grphbtn" class="graph_show graph_alt">Altitude:</a> '  + row.gps_alt + ' m ('+(row.gps_alt-lastAlt[row.vehicle])+'</h4>';
         lastAlt[row.vehicle]=row.gps_alt;
         if(row.temp_inside!="") {
                 html+='<h4><a href="#" id="'+row.vehicle+'_grphbtn" class="graph_show graph_inttemp">Internal Temperature:</a> '  + row.temp_inside + ' °c</h4>';
