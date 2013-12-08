@@ -399,34 +399,20 @@
 	                    if(data[i].vehicle==payloadCallsign) {
 	                        if(!vehPredictions[data[i].vehicle]) {
 	                            vehPredictions[data[i].vehicle]=[];
-	                            pathData = JSON && JSON.parse(data[i].data) || $.parseJSON(data[i].data);
-	                            drawPredTail(pathData,data[i].vehicle); // Render Prediction Path
-	                            var maxAlt=0, maxIndex;
-	                            for(var j=0; j<pathData.length; j++) {
-	                                if(parseFloat(pathData[j].alt)>maxAlt) {
-	                                    maxAlt=parseFloat(pathData[j].alt);
-	                                    maxIndex=j;
-	                                }
-	                            }
-	                            if(typeof pathData[maxIndex]!='undefined') {
-	                                drawPredBurst(pathData[maxIndex],data[i].vehicle) // Render Burst Point
-	                                drawPredTarget(pathData[pathData.length-1],data[i].vehicle) // Render Landing Point
-	                            }
-                            } else {
-                                pathData = JSON && JSON.parse(data[i].data) || $.parseJSON(data[i].data);
-                                drawPredTail(pathData,data[i].vehicle); // Render Prediction Path
-	                            var maxAlt=0, maxIndex;
-	                            for(var j=0; j<pathData.length; j++) {
-	                                if(parseFloat(pathData[j].alt)>maxAlt) {
-	                                    maxAlt=parseFloat(pathData[j].alt);
-	                                    maxIndex=j;
-	                                }
-	                            }
-	                            if(typeof pathData[maxIndex]!='undefined') {
-	                                drawPredBurst(pathData[maxIndex],data[i].vehicle) // Render Burst Point
-	                                drawPredTarget(pathData[pathData.length-1],data[i].vehicle) // Render Landing Point
-	                            }
 	                        }
+                            pathData = JSON && JSON.parse(data[i].data) || $.parseJSON(data[i].data);
+                            drawPredTail(pathData,data[i].vehicle); // Render Prediction Path
+                            var maxAlt=0, maxIndex;
+                            for(var j=0; j<pathData.length; j++) {
+                                if(parseFloat(pathData[j].alt)>maxAlt) {
+                                    maxAlt=parseFloat(pathData[j].alt);
+                                    maxIndex=j;
+                                }
+                            }
+                            if(typeof pathData[maxIndex]!='undefined') {
+                                drawPredBurst(pathData[maxIndex],data[i].vehicle) // Render Burst Point
+                            }
+                            drawPredTarget(pathData[pathData.length-1],data[i].vehicle) // Render Landing Point
 	                    }
                     }
 	        }
