@@ -139,6 +139,8 @@
     
     var lastAlt=[]; // For ascent/descent rate calculations
     var lastTime=[]; // " "
+    var flightStatus=[]; // To track whether balloons have burst, or landed
+    // Status: 0 - Ascending, 1 - burst, 2 - landed
 	
 	payloadCallsign=getUrlVars().filter;
 	
@@ -222,7 +224,8 @@
         });
     }
     
-    function balloonIconFactory(iconCallsign,altitude) {
+    function balloonIconFactory(iconCallsign,altitude, status) {
+        // Status: 0 - Ascending, 1 - burst, 2 - landed
         if(typeof balloonColours['red']=='undefined') {
             var iconColour='static/images/balloon-red.png';
             balloonColours['red'] = iconCallsign;
@@ -362,9 +365,14 @@
 	                            if(typeof lastAlt[data[i].vehicle]=='undefined') {
 	                                lastAlt[data[i].vehicle]=tmpData[lastIndex-1].gps_alt;
 	                                lastTime[data[i].vehicle]=tmpData[lastIndex-1].gps_time;
+	                                flightStatus[data[i].vehicle]=0;
 	                            }
-		                        setVehPos(tmpData[lastIndex]);
-		                        setVehInfo(tmpData[lastIndex]);
+                                var ascentRate = (row.gps_alt-lastAlt[row.vehicle])/(moment(row.gps_time).unix()-moment(lastTime[row.vehicle]).unix());
+                                
+                                lastAlt[row.vehicle]=row.gps_alt;
+                                lastTime[row.vehicle]=row.gps_time;
+		                        setVehPos(tmpData[lastIndex],ascentRate);
+		                        setVehInfo(tmpData[lastIndex],ascentRate);
 		                        drawVehTail(tmpData);
 		                        drawVehReceivers(tmpData[lastIndex]);
 		                    } else {
@@ -421,7 +429,8 @@
         });
     }
     
-    function setVehPos(row) {
+    function setVehPos(row, ascentRate) {
+        ascentRate,row.gps_alt,data[i].vehicle);
         if(vehMarkers[row.vehicle]) {
             vehMarkers[row.vehicle].setLatLng([row.gps_lat,row.gps_lon]);
             vehMarkers[row.vehicle].setPopupContent(popupHtml(row));
@@ -486,7 +495,7 @@
         }
     }
             
-    function setVehInfo(row){
+    function setVehInfo(row, ascentRate){
         var container = document.getElementById('vehicle' + row.vehicle);
         if (container == null) {
             container = document.createElement('div');
@@ -501,12 +510,8 @@
         var html= '<h3>'  + row.vehicle + '</h3>'
                 +     '<h4>GPS Time: '  + row.gps_time + '</h4>'
                 +     '<h4>Latitude: '  + row.gps_lat + '</h4>'
-                +     '<h4>Longitude: '  + row.gps_lon + '</h4>';
-        var secondsSinceLast = moment(row.gps_time).unix() - moment(lastTime[row.vehicle]).unix();
-        var ascentRate = (row.gps_alt-lastAlt[row.vehicle])/secondsSinceLast;
-        html+='<h4><a href="#" id="'+row.vehicle+'_grphbtn" class="graph_show graph_alt">Altitude:</a> '  + row.gps_alt + ' m ('+(ascentRate<=0?'':'+') + ascentRate.toFixed(1)+' m/s)</h4>';
-        lastAlt[row.vehicle]=row.gps_alt;
-        lastTime[row.vehicle]=row.gps_time;
+                +     '<h4>Longitude: '  + row.gps_lon + '</h4>'
+                +   '<h4><a href="#" id="'+row.vehicle+'_grphbtn" class="graph_show graph_alt">Altitude:</a> '  + row.gps_alt + ' m ('+(ascentRate<=0?'':'+') + ascentRate.toFixed(1)+' m/s)</h4>';
         if(row.temp_inside!="") {
                 html+='<h4><a href="#" id="'+row.vehicle+'_grphbtn" class="graph_show graph_inttemp">Internal Temperature:</a> '  + row.temp_inside + ' °c</h4>';
         }
@@ -605,6 +610,13 @@
 			vars[hash[0]] = hash[1];
 	    }
 	    return vars;
+	}
+	
+	function calculateFlightStatus(ascentRate, altitude, vehicle) {
+	    if(altitude>1000 && ascentRate <1.2) {
+	        return 1; // burst, descending
+	    } else if(altitude<1000 && flightStatus[vehicle]==0) {
+	        if(ascentRate
 	}
 </script>
 <script>
