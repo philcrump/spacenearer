@@ -516,7 +516,7 @@
                 +     '<h4>Longitude: '  + row.gps_lon + '</h4>';
         var secondsSinceLast = moment(row.gps_time).unix() - moment(lastTime[row.vehicle]).unix();
         var ascentRate = (row.gps_alt-lastAlt[row.vehicle])/secondsSinceLast;
-        html+='<h4><a href="#" id="'+row.vehicle+'_grphbtn" class="graph_show graph_alt">Altitude:</a> '  + row.gps_alt + ' m ('+(ascentRate<=0?'':'+') + ascentRate;+' m/s)</h4>';
+        html+='<h4><a href="#" id="'+row.vehicle+'_grphbtn" class="graph_show graph_alt">Altitude:</a> '  + row.gps_alt + ' m ('+(ascentRate<=0?'':'+') + ascentRate+' m/s)</h4>';
         lastAlt[row.vehicle]=row.gps_alt;
         lastTime[row.vehicle]=row.gps_time;
         if(row.temp_inside!="") {
