@@ -500,20 +500,24 @@
         }
         
         
-        var html= '<h3>'  + row.vehicle + '</h3>'
-                +     '<h4>GPS Time: '  + row.gps_time + '</h4>'
-                +     '<h4>Latitude: '  + row.gps_lat + '</h4>'
-                +     '<h4>Longitude: '  + row.gps_lon + '</h4>';
+        var html = "<h3>" + row.vehicle + "</h3>"
+            + '<p style="font-size: 10pt;">'
+            + "<b>Time:</b> " + row.gps_time + "<br>"
+            + "<b>Position:</b> " + row.gps_lat + "," + row.gps_lon + "<br>";
         var secondsSinceLast = moment(row.gps_time).unix() - moment(lastTime[row.vehicle]).unix();
         var ascentRate = (row.gps_alt-lastAlt[row.vehicle])/secondsSinceLast;
-        html+='<h4><a href="#" id="'+row.vehicle+'_grphbtn" class="graph_show graph_alt">Altitude:</a> '  + row.gps_alt + ' m ('+(ascentRate<=0?'':'+') + ascentRate.toFixed(1)+' m/s)</h4>';
+        html+='<b><a href="#" id="'+row.vehicle+'_grphbtn" class="graph_show graph_alt">Altitude:</a></b> '  + row.gps_alt + ' m ('+(ascentRate<=0?'':'+') + ascentRate.toFixed(1)+' m/s)<br>';
         if(row.temp_inside!="") {
-                html+='<h4><a href="#" id="'+row.vehicle+'_grphbtn" class="graph_show graph_inttemp">Internal Temperature:</a> '  + row.temp_inside + ' °c</h4>';
+                html+='<b><a href="#" id="'+row.vehicle+'_grphbtn" class="graph_show graph_inttemp">Internal Temperature:</a></b> '  + row.temp_inside + ' °c<br>';
         }
         var extraData=JSON.parse(row.data);
         if(typeof extraData.temperature_external!='undefined') {
-                html+='<h4><a href="#" id="'+row.vehicle+'_grphbtn" class="graph_show graph_exttemp">External Temperature:</a> '  + extraData.temperature_external + ' °c</h4>';
+                html+='<b><a href="#" id="'+row.vehicle+'_grphbtn" class="graph_show graph_exttemp">External Temperature:</a></b> '  + extraData.temperature_external + ' °c<br>';
         }
+        if(row.callsign.split(",").length!=0) {
+            html += "<b>Receivers:</b> " + row.callsign.split(",").join(", ");
+        }
+        html += "</p>";
 
         container.innerHTML = html;
     }
