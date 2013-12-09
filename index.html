@@ -503,7 +503,7 @@
         var html = "<h3>" + row.vehicle + "</h3>"
             + '<p style="font-size: 10pt;">'
             + "<b>Time:</b> " + row.gps_time + "<br>"
-            + "<b>Position:</b> " + row.gps_lat + "," + row.gps_lon + "<br>";
+            + "<b>Position:</b> " + row.gps_lat + ", " + row.gps_lon + "<br>";
         var secondsSinceLast = moment(row.gps_time).unix() - moment(lastTime[row.vehicle]).unix();
         var ascentRate = (row.gps_alt-lastAlt[row.vehicle])/secondsSinceLast;
         html+='<b><a href="#" id="'+row.vehicle+'_grphbtn" class="graph_show graph_alt">Altitude:</a></b> '  + row.gps_alt + ' m ('+(ascentRate<=0?'':'+') + ascentRate.toFixed(1)+' m/s)<br>';
@@ -580,7 +580,7 @@
         var html = "<b>" + row.vehicle + "</b><br>"
             + '<p style="font-size: 8pt;">'
             + "<b>Time:</b> " + row.gps_time + "<br>"
-            + "<b>Position:</b> " + row.gps_lat + "," + row.gps_lon + "<br>";
+            + "<b>Position:</b> " + row.gps_lat + ", " + row.gps_lon + "<br>";
         var secondsSinceLast = moment(row.gps_time).unix() - moment(lastTime[row.vehicle]).unix();
         var ascentRate = (row.gps_alt-lastAlt[row.vehicle])/secondsSinceLast;
         html+='<b><a href="#" id="'+row.vehicle+'_grphbtn" class="graph_show graph_alt">Altitude:</a></b> '  + row.gps_alt + ' m ('+(ascentRate<=0?'':'+') + ascentRate.toFixed(1)+' m/s)<br>';
