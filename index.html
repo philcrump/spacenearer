@@ -572,16 +572,28 @@
        vehPredictions[vehicle][0] = L.polyline(temp_latlngs, {color: 'red', opacity: 0.4, weight: 3}).addTo(map);
     }
     
-    function popupHtml(position) {
-        var html = "<b>" + position.vehicle + "</b><br>"
+    function popupHtml(row) {
+        var html = "<b>" + row.vehicle + "</b><br>"
             + '<p style="font-size: 8pt;">'
-            + "<b>Time:</b> " + position.gps_time + "<br>"
-            + "<b>Position:</b> " + position.gps_lat + "," + position.gps_lon + "<br>"
-            + "<b>Altitude:</b> " + position.gps_alt + " m";
-        if(position.callsign.split(",").length!=0) {
-            html += "<br><b>Receivers:</b> " + position.callsign.split(",").join(", ");
+            + "<b>Time:</b> " + row.gps_time + "<br>"
+            + "<b>Position:</b> " + row.gps_lat + "," + row.gps_lon + "<br>";
+        var secondsSinceLast = moment(row.gps_time).unix() - moment(lastTime[row.vehicle]).unix();
+        var ascentRate = (row.gps_alt-lastAlt[row.vehicle])/secondsSinceLast;
+        html+='<b><a href="#" id="'+row.vehicle+'_grphbtn" class="graph_show graph_alt">Altitude:</a></b> '  + row.gps_alt + ' m ('+(ascentRate<=0?'':'+') + ascentRate.toFixed(1)+' m/s)<br>';
+        lastAlt[row.vehicle]=row.gps_alt;
+        lastTime[row.vehicle]=row.gps_time;
+        if(row.temp_inside!="") {
+                html+='<b><a href="#" id="'+row.vehicle+'_grphbtn" class="graph_show graph_inttemp">Internal Temperature:</a></b> '  + row.temp_inside + ' °c<br>';
+        }
+        var extraData=JSON.parse(row.data);
+        if(typeof extraData.temperature_external!='undefined') {
+                html+='<b><a href="#" id="'+row.vehicle+'_grphbtn" class="graph_show graph_exttemp">External Temperature:</a></b> '  + extraData.temperature_external + ' °c<br>';
+        }
+        if(row.callsign.split(",").length!=0) {
+            html += "<br><b>Receivers:</b> " + row.callsign.split(",").join(", ");
         }
         html += "</p>";
+
         return html;
     }
     
