@@ -519,7 +519,7 @@
                 html+='<b><a href="#" id="'+row.vehicle+'_grphbtn" class="graph_show graph_exttemp">External Temperature:</a></b> '  + extraData.temperature_external + ' °c<br>';
         }
         if(row.callsign.split(",").length!=0) {
-            html += "<b>Receivers:</b> " + row.callsign.split(",").join(", ");
+            html += "<b>Receivers:</b> " + row.callsign.split(",").join(", ")+"<br>";
         }
         html += '<a href="#" id="'+row.vehicle+'_panbtn">Pan To</a>'
         html += "</p>";
