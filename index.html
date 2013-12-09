@@ -140,7 +140,7 @@
     var lastAlt=[]; // For ascent/descent rate calculations
     var lastTime=[]; // " "
 	
-	payloadCallsign=getUrlVars().filter;
+	var payloadCallsign=getUrlVars()['filter'];
 	
 	var map = L.map('map', {
         center: [50.673, -1.286],
@@ -336,15 +336,19 @@
     }
     
     function refreshVehicles() {
+        var getData = {
+            format: "json",
+            position_id: lastPosId,
+            max_positions: 0
+        };
+        if(typeof payloadCallsign != 'undefined') {
+            getData['vehicles']=payloadCallsign;
+        }
         $.ajax({
 	        url: "http://spacenear.us/tracker/data.php",
 	        type: "GET",
 	        dataType: 'json',
-	        data: {
-                format: "json",
-	            position_id: lastPosId,
-	            max_positions: 0
-	        },
+	        data: getData,
 	        success: function( jsonData ) {
 	            data = jsonData.positions.position;
 	            if(data.length!=0) {
