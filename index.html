@@ -367,6 +367,8 @@
 		                        setVehInfo(tmpData[lastIndex]);
 		                        drawVehTail(tmpData);
 		                        drawVehReceivers(tmpData[lastIndex]);
+		                        lastAlt[data[i].vehicle]=tmpData[lastIndex].gps_alt;
+                                lastTime[data[i].vehicle]=tmpData[lastIndex].gps_time;
 		                    } else {
 		                        setCarPos(tmpData[lastIndex]);
 		                    }
@@ -505,8 +507,6 @@
         var secondsSinceLast = moment(row.gps_time).unix() - moment(lastTime[row.vehicle]).unix();
         var ascentRate = (row.gps_alt-lastAlt[row.vehicle])/secondsSinceLast;
         html+='<h4><a href="#" id="'+row.vehicle+'_grphbtn" class="graph_show graph_alt">Altitude:</a> '  + row.gps_alt + ' m ('+(ascentRate<=0?'':'+') + ascentRate.toFixed(1)+' m/s)</h4>';
-        lastAlt[row.vehicle]=row.gps_alt;
-        lastTime[row.vehicle]=row.gps_time;
         if(row.temp_inside!="") {
                 html+='<h4><a href="#" id="'+row.vehicle+'_grphbtn" class="graph_show graph_inttemp">Internal Temperature:</a> '  + row.temp_inside + ' °c</h4>';
         }
@@ -580,8 +580,6 @@
         var secondsSinceLast = moment(row.gps_time).unix() - moment(lastTime[row.vehicle]).unix();
         var ascentRate = (row.gps_alt-lastAlt[row.vehicle])/secondsSinceLast;
         html+='<b><a href="#" id="'+row.vehicle+'_grphbtn" class="graph_show graph_alt">Altitude:</a></b> '  + row.gps_alt + ' m ('+(ascentRate<=0?'':'+') + ascentRate.toFixed(1)+' m/s)<br>';
-        lastAlt[row.vehicle]=row.gps_alt;
-        lastTime[row.vehicle]=row.gps_time;
         if(row.temp_inside!="") {
                 html+='<b><a href="#" id="'+row.vehicle+'_grphbtn" class="graph_show graph_inttemp">Internal Temperature:</a></b> '  + row.temp_inside + ' °c<br>';
         }
