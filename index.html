@@ -404,26 +404,24 @@
 	        success: function( data ) {
 	            var dataLength = data.length;
 	                for (var i=0; i<dataLength; i++) {
-	                    if(data[i].vehicle==payloadCallsign) {
-	                        if(!vehPredictions[data[i].vehicle]) {
-	                            vehPredictions[data[i].vehicle]=[];
-	                        }
-                            pathData = JSON && JSON.parse(data[i].data) || $.parseJSON(data[i].data);
-                            drawPredTail(pathData,data[i].vehicle); // Render Prediction Path
-                            if(pathData.descending==0) { // If balloon is ascending, calculate and render burst
-                                var maxAlt=0, maxIndex;
-                                for(var j=0; j<pathData.length; j++) {
-                                    if(parseFloat(pathData[j].alt)>maxAlt) {
-                                        maxAlt=parseFloat(pathData[j].alt);
-                                        maxIndex=j;
-                                    }
-                                }
-                                if(typeof pathData[maxIndex]!='undefined') {
-                                    drawPredBurst(pathData[maxIndex],data[i].vehicle) // Render Burst Point
+                        if(!vehPredictions[data[i].vehicle]) {
+                            vehPredictions[data[i].vehicle]=[];
+                        }
+                        pathData = JSON && JSON.parse(data[i].data) || $.parseJSON(data[i].data);
+                        drawPredTail(pathData,data[i].vehicle); // Render Prediction Path
+                        if(pathData.descending==0) { // If balloon is ascending, calculate and render burst
+                            var maxAlt=0, maxIndex;
+                            for(var j=0; j<pathData.length; j++) {
+                                if(parseFloat(pathData[j].alt)>maxAlt) {
+                                    maxAlt=parseFloat(pathData[j].alt);
+                                    maxIndex=j;
                                 }
                             }
-                            drawPredTarget(pathData[pathData.length-1],data[i].vehicle) // Render Landing Point
-	                    }
+                            if(typeof pathData[maxIndex]!='undefined') {
+                                drawPredBurst(pathData[maxIndex],data[i].vehicle) // Render Burst Point
+                            }
+                        }
+                        drawPredTarget(pathData[pathData.length-1],data[i].vehicle) // Render Landing Point
                     }
 	        }
         });
