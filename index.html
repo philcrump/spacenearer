@@ -366,7 +366,7 @@
 	                        if(data[i].vehicle.substring(callsignLen-6,callsignLen)!="_chase") {
 	                            if(lastPosId==0) map.setView([tmpData[lastIndex].gps_lat,tmpData[lastIndex].gps_lon],8);
 	                            if(typeof lastAlt[data[i].vehicle]=='undefined') {
-	                                if(typeof tmpData[lastIndex-1].gps_alt!='undefined') {
+	                                if(typeof tmpData[lastIndex-1]!='undefined') {
 	                                    lastAlt[data[i].vehicle]=tmpData[lastIndex-1].gps_alt;
 	                                    lastTime[data[i].vehicle]=tmpData[lastIndex-1].gps_time;
 	                                } else {
