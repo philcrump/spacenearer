@@ -521,7 +521,12 @@
         if(row.callsign.split(",").length!=0) {
             html += "<b>Receivers:</b> " + row.callsign.split(",").join(", ");
         }
+        html += '<a href="#" id="'+row.vehicle+'_panbtn">Pan To</a>'
         html += "</p>";
+        
+        $(document.body).on('click', '#'+row.vehicle+'_panbtn' ,function(){
+            map.panTo([row.gps_lat, row.gps_lon]);
+        });
 
         container.innerHTML = html;
     }
