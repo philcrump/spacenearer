@@ -140,7 +140,9 @@
     var lastAlt=[]; // For ascent/descent rate calculations
     var lastTime=[]; // " "
 	
-	var payloadCallsign=getUrlVars()['filter'];
+	if(typeof getUrlVars()['filter']!='undefined') {
+	    var payloadCallsign=getUrlVars()['filter'];
+	}
 	
 	var map = L.map('map', {
         center: [50.673, -1.286],
