@@ -433,6 +433,9 @@
     }
     
     function setVehPos(row) {
+        if(row.gps_alt<0) {
+            row.gps_alt=0;
+        }
         if(vehMarkers[row.vehicle]) {
             vehMarkers[row.vehicle].setLatLng([row.gps_lat,row.gps_lon]);
             vehMarkers[row.vehicle].setPopupContent(popupHtml(row));
