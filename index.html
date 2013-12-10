@@ -461,8 +461,8 @@
                 subhorizon_radius(row.gps_alt),
                 {color: "#00FF00", fill: false}
             ).addTo(map);
-            vehMarkers[row.vehicle][0].bindPopup("0° Radio Horizon");
-            vehMarkers[row.vehicle][1].bindPopup("5° Radio Horizon");
+            vehCircles[row.vehicle][0].bindPopup("0° Radio Horizon");
+            vehCircles[row.vehicle][1].bindPopup("5° Radio Horizon");
         }
     }
     
