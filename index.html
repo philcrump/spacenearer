@@ -520,7 +520,7 @@
             + "<b>Time:</b> " + row.gps_time + "<br>"
             + "<b>Position:</b> " + row.gps_lat + ", " + row.gps_lon + "<br>";
         var secondsSinceLast = moment(row.gps_time).unix() - moment(lastTime[row.vehicle]).unix();
-        if(secondsSinceLast!=0)
+        if(secondsSinceLast!=0) {
             var ascentRate = (row.gps_alt-lastAlt[row.vehicle])/secondsSinceLast;
             lastRate[row.vehicle]=ascentRate;
         } else {
@@ -607,7 +607,7 @@
             + "<b>Time:</b> " + row.gps_time + "<br>"
             + "<b>Position:</b> " + row.gps_lat + ", " + row.gps_lon + "<br>";
         var secondsSinceLast = moment(row.gps_time).unix() - moment(lastTime[row.vehicle]).unix();
-        if(secondsSinceLast!=0)
+        if(secondsSinceLast!=0) {
             var ascentRate = (row.gps_alt-lastAlt[row.vehicle])/secondsSinceLast;
             lastRate[row.vehicle]=ascentRate;
         } else {
