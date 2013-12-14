@@ -367,13 +367,14 @@
 	                        if(data[i].vehicle.substring(callsignLen-6,callsignLen)!="_chase") {
 	                            if(lastPosId==0) map.setView([tmpData[lastIndex].gps_lat,tmpData[lastIndex].gps_lon],8);
 	                            if(typeof lastAlt[data[i].vehicle]=='undefined') {
-	                                if(typeof tmpData[lastIndex-1]!='undefined') {
-	                                    lastAlt[data[i].vehicle]=tmpData[lastIndex-1].gps_alt;
-	                                    lastTime[data[i].vehicle]=tmpData[lastIndex-1].gps_time;
-	                                } else {
+	                                if(typeof tmpData[lastIndex-1]=='undefined') {
 	                                    lastAlt[data[i].vehicle]=tmpData[lastIndex].gps_alt;
 	                                    lastTime[data[i].vehicle]=tmpData[lastIndex].gps_time;
+	                                } else {
+	                                    lastAlt[data[i].vehicle]=tmpData[lastIndex-1].gps_alt;
+	                                    lastTime[data[i].vehicle]=tmpData[lastIndex-1].gps_time;
 	                                }
+	                                lastRate[data[i].vehicle]=0;
 	                            }
 		                        setVehPos(tmpData[lastIndex]);
 		                        setVehInfo(tmpData[lastIndex]);
@@ -415,19 +416,21 @@
                         }
                         pathData = JSON && JSON.parse(data[i].data) || $.parseJSON(data[i].data);
                         drawPredTail(pathData,data[i].vehicle); // Render Prediction Path
-                        if(pathData.descending==0) { // If balloon is ascending, calculate and render burst
-                            var maxAlt=0, maxIndex;
-                            for(var j=0; j<pathData.length; j++) {
-                                if(parseFloat(pathData[j].alt)>maxAlt) {
-                                    maxAlt=parseFloat(pathData[j].alt);
-                                    maxIndex=j;
+                        if(!pathData.errors) { // Catch predictor error
+                            if(pathData.descending==0) { // If balloon is ascending, calculate and render burst
+                                var maxAlt=0, maxIndex;
+                                for(var j=0; j<pathData.length; j++) {
+                                    if(parseFloat(pathData[j].alt)>maxAlt) {
+                                        maxAlt=parseFloat(pathData[j].alt);
+                                        maxIndex=j;
+                                    }
+                                }
+                                if(typeof pathData[maxIndex]!='undefined') {
+                                    drawPredBurst(pathData[maxIndex],data[i].vehicle) // Render Burst Point
                                 }
                             }
-                            if(typeof pathData[maxIndex]!='undefined') {
-                                drawPredBurst(pathData[maxIndex],data[i].vehicle) // Render Burst Point
-                            }
+                            drawPredTarget(pathData[pathData.length-1],data[i].vehicle) // Render Landing Point
                         }
-                        drawPredTarget(pathData[pathData.length-1],data[i].vehicle) // Render Landing Point
                     }
 	        }
         });
