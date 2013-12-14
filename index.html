@@ -534,6 +534,9 @@
         if(typeof extraData.temperature_external!='undefined') {
                 html+='<b><a href="#" id="'+row.vehicle+'_grphbtn" class="graph_show graph_exttemp">External Temperature:</a></b> '  + extraData.temperature_external + ' °c<br>';
         }
+        if(typeof extraData.comment!='undefined') {
+                html+='<b>APRS Comment:</a></b> '  + extraData.comment + '<br>';
+        }
         if(row.callsign.split(",").length!=0) {
             html += "<b>Receivers:</b> " + row.callsign.split(",").join(", ")+"<br>";
         }
@@ -620,6 +623,9 @@
         var extraData=JSON.parse(row.data);
         if(typeof extraData.temperature_external!='undefined') {
                 html+='<b><a href="#" id="'+row.vehicle+'_grphbtn" class="graph_show graph_exttemp">External Temperature:</a></b> '  + extraData.temperature_external + ' °c<br>';
+        }
+        if(typeof extraData.comment!='undefined') {
+                html+='<b>APRS Comment:</a></b> '  + extraData.comment + '<br>';
         }
         if(row.callsign.split(",").length!=0) {
             html += "<b>Receivers:</b> " + row.callsign.split(",").join(", ");
