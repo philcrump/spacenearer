@@ -526,7 +526,7 @@
         } else {
             var ascentRate = lastRate[row.vehicle];
         }
-        html+='<b><a href="#" id="'+row.vehicle+'_grphbtn" class="graph_show graph_alt">Altitude:</a></b> '  + row.gps_alt + ' m ('+(ascentRate<=0?'':'+') + ascentRate.toFixed(1)+' m/s)<br>';
+        html+='<b><a href="#" id="'+row.vehicle+'_grphbtn" class="graph_show graph_alt">Altitude:</a></b> '  + row.gps_alt.toFixed(1) + ' m ('+(ascentRate<=0?'':'+') + ascentRate.toFixed(1)+' m/s)<br>';
         if(row.temp_inside!="") {
                 html+='<b><a href="#" id="'+row.vehicle+'_grphbtn" class="graph_show graph_inttemp">Internal Temperature:</a></b> '  + row.temp_inside + ' °c<br>';
         }
@@ -613,7 +613,7 @@
         } else {
             var ascentRate = lastRate[row.vehicle];
         }
-        html+='<b><a href="#" id="'+row.vehicle+'_grphbtn" class="graph_show graph_alt">Altitude:</a></b> '  + row.gps_alt + ' m ('+(ascentRate<=0?'':'+') + ascentRate.toFixed(1)+' m/s)<br>';
+        html+='<b><a href="#" id="'+row.vehicle+'_grphbtn" class="graph_show graph_alt">Altitude:</a></b> '  + row.gps_alt.toFixed(1) + ' m ('+(ascentRate<=0?'':'+') + ascentRate.toFixed(1)+' m/s)<br>';
         if(row.temp_inside!="") {
                 html+='<b><a href="#" id="'+row.vehicle+'_grphbtn" class="graph_show graph_inttemp">Internal Temperature:</a></b> '  + row.temp_inside + ' °c<br>';
         }
