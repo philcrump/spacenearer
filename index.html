@@ -491,7 +491,7 @@
         }
         var splitRxes=row.callsign.split(",");
         var rxCount=splitRxes.length; 
-        if(rxCount!=0) {
+        if(row.callsign.length!=0) {
             for(var k=0;k<rxCount;k++) {
                 if(rxMarkers[splitRxes[k]]) {
                     var temp_latlngs=[];
@@ -537,7 +537,7 @@
         if(typeof extraData.comment!='undefined') {
                 html+='<b>APRS Comment:</a></b> '  + extraData.comment + '<br>';
         }
-        if(row.callsign.split(",").length!=0) {
+        if(row.callsign.length!=0) {
             html += "<b>Receivers:</b> " + row.callsign.split(",").join(", ")+"<br>";
         }
         html += '<a href="#" id="'+row.vehicle+'_panbtn">Pan To</a>'
@@ -627,7 +627,7 @@
         if(typeof extraData.comment!='undefined') {
                 html+='<b>APRS Comment:</a></b> '  + extraData.comment + '<br>';
         }
-        if(row.callsign.split(",").length!=0) {
+        if(row.callsign.length!=0) {
             html += "<b>Receivers:</b> " + row.callsign.split(",").join(", ");
         }
         html += "</p>";
