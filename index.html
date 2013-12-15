@@ -417,7 +417,7 @@
                         pathData = JSON && JSON.parse(data[i].data) || $.parseJSON(data[i].data);
                         drawPredTail(pathData,data[i].vehicle); // Render Prediction Path
                         if(!pathData.errors) { // Catch predictor error
-                            if(pathData.descending==0) { // If balloon is ascending, calculate and render burst
+                            if(!pathData.descending) { // If balloon is ascending, calculate and render burst
                                 var maxAlt=0, maxIndex;
                                 for(var j=0; j<pathData.length; j++) {
                                     if(parseFloat(pathData[j].alt)>maxAlt) {
