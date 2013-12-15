@@ -574,26 +574,40 @@
     function drawPredBurst(row,vehicle) {
         if(vehPredictions[vehicle][1]) {
             vehPredictions[vehicle][1].setLatLng([row.lat,row.lon]);
-            vehPredictions[vehicle][1].setPopupContent(moment.unix(row.time).format("HH:mm:ss")+" UTC");
+            vehPredictions[vehicle][1].setPopupContent(
+                "<h4>Burst</h4>"
+                +moment.unix(row.time).format("HH:mm:ss")+" UTC"
+                +"<br>"+row.alt+"m"
+            );
         } else {
             vehPredictions[vehicle][1] = L.marker([row.lat,row.lon], {
                 title: "Burst Prediction",
                 icon: burstIcon
             }).addTo(map);
-            vehPredictions[vehicle][1].bindPopup(moment.unix(row.time).format("HH:mm:ss")+" UTC");
+            vehPredictions[vehicle][1].bindPopup(
+                "<h4>Burst</h4>"
+                +moment.unix(row.time).format("HH:mm:ss")+" UTC"
+                +"<br>"+row.alt+"m"
+            );
         }
     }
     
     function drawPredTarget(row,vehicle) {
         if(vehPredictions[vehicle][2]) {
             vehPredictions[vehicle][2].setLatLng([row.lat,row.lon]);
-            vehPredictions[vehicle][2].setPopupContent(moment.unix(row.time).format("HH:mm:ss")+" UTC");
+            vehPredictions[vehicle][2].setPopupContent(
+                "<h4>Landing</h4>"
+                +moment.unix(row.time).format("HH:mm:ss")+" UTC"
+            );
         } else {
             vehPredictions[vehicle][2] = L.marker([row.lat,row.lon], {
                 title: "Landing Prediction",
                 icon: targetIcon
             }).addTo(map);
-            vehPredictions[vehicle][2].bindPopup(moment.unix(row.time).format("HH:mm:ss")+" UTC");
+            vehPredictions[vehicle][2].bindPopup(
+                "<h4>Landing</h4>"
+                +moment.unix(row.time).format("HH:mm:ss")+" UTC"
+            );
         }
     }
     
