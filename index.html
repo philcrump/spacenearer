@@ -389,6 +389,9 @@
                                     latestTime=lastTime[data[i].vehicle];
                                 }
 		                    } else {
+		                        if(typeof lastTime[data[i].vehicle]=='undefined') {
+		                            lastTime[data[i].vehicle]=moment(tmpData[lastIndex].gps_time);
+		                        }
 		                        setCarPos(tmpData[lastIndex]);
 		                        lastTime[data[i].vehicle]=moment(tmpData[lastIndex].gps_time);
 		                    }
