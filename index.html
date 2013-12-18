@@ -140,6 +140,9 @@
     var lastAlt=[]; // For ascent/descent rate calculations
     var lastTime=[]; // " "
     var lastRate=[]; // For holding last ascent rate for the redundant data rows (late uploads)
+    
+    var latestVehicle; // Used on page load to find most recent payload to pan to
+    var latestTime = moment("2001"); // Used to compare payload lastTimes
 	
 	if(typeof getUrlVars()['vehicles']!='undefined') {
 	    var filterVehicles=getUrlVars()['vehicles'];
@@ -365,7 +368,6 @@
 	                        lastIndex=tmpData.length-1;
 	                        callsignLen = data[i].vehicle.length;
 	                        if(data[i].vehicle.substring(callsignLen-6,callsignLen)!="_chase") {
-	                            if(lastPosId==0) map.setView([tmpData[lastIndex].gps_lat,tmpData[lastIndex].gps_lon],8);
 	                            if(typeof lastAlt[data[i].vehicle]=='undefined') {
 	                                if(typeof tmpData[lastIndex-1]=='undefined') {
 	                                    lastAlt[data[i].vehicle]=tmpData[lastIndex].gps_alt;
@@ -382,6 +384,10 @@
 		                        drawVehReceivers(tmpData[lastIndex]);
 		                        lastAlt[data[i].vehicle]=tmpData[lastIndex].gps_alt;
                                 lastTime[data[i].vehicle]=moment(tmpData[lastIndex].gps_time);
+                                if(pageStarting && (latestTime.unix()<lastTime[data[i].vehicle].unix())) {
+                                    latestVehicle=data[i].vehicle;
+                                    latestTime=lastTime[data[i].vehicle];
+                                }
 		                    } else {
 		                        setCarPos(tmpData[lastIndex]);
 		                    }
@@ -396,6 +402,7 @@
 		            }
 		            if(pageStarting) {
 		                pageStarting=false;
+                        map.setView(vehMarkers[latestVehicle]._latlng,6);
 		                $(".page-loading").hide();
 		            }
 		        }
