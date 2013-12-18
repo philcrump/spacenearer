@@ -390,6 +390,7 @@
                                 }
 		                    } else {
 		                        setCarPos(tmpData[lastIndex]);
+		                        lastTime[data[i].vehicle]=moment(tmpData[lastIndex].gps_time);
 		                    }
 		                    if(lastPosId<tmpData[lastIndex].position_id) {
 		                        lastPosId=tmpData[lastIndex].position_id;
