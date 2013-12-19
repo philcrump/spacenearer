@@ -88,6 +88,10 @@ html, body, #map {
 .vehicle_box {
     margin-top: 0.5em;
 }
+.pseudoHref {
+    text-decoration: underline;
+    cursor: pointer;
+}
 </style>
 <link rel="stylesheet" href="static/css/leaflet.css" />
 </head>
@@ -106,7 +110,7 @@ html, body, #map {
     <div id="box-graph" class="box">
         <div id="graph-div"></div>
         <br>
-        Click and Drag to zoom, Double-Click to reset zoom, <a href="#" class="graph_hide" style="text-align:center;">Click here to Close</a>
+        Click and Drag to zoom, Double-Click to reset zoom, <a class="graph_hide pseudoHref" style="text-align:center;">Click here to Close</a>
     </div>
 <script src="static/js/combined-libs.js"></script>
 <script src="apikeys.js"></script>
@@ -537,14 +541,14 @@ html, body, #map {
         } else {
             var ascentRate = lastRate[row.vehicle];
         }
-        html+='<b><a href="#" id="'+row.vehicle+'_grphbtn" class="graph_show graph_alt">Altitude:</a></b> '  + Number(row.gps_alt).toFixed(1) + ' m ('+(ascentRate<=0?'':'+') + ascentRate.toFixed(1)+' m/s)<br>';
+        html+='<b><a id="'+row.vehicle+'_grphbtn" class="graph_show graph_alt pseudoHref">Altitude:</a></b> '  + Number(row.gps_alt).toFixed(1) + ' m ('+(ascentRate<=0?'':'+') + ascentRate.toFixed(1)+' m/s)<br>';
         if(row.temp_inside!="") {
-                html+='<b><a href="#" id="'+row.vehicle+'_grphbtn" class="graph_show graph_inttemp">Internal Temperature:</a></b> '  + row.temp_inside + ' °c<br>';
+                html+='<b><a id="'+row.vehicle+'_grphbtn" class="graph_show graph_inttemp pseudoHref">Internal Temperature:</a></b> '  + row.temp_inside + ' °c<br>';
         }
         if(row.data.length!=0) {
             var extraData=JSON.parse(row.data);
             if(typeof extraData.temperature_external!='undefined') {
-                    html+='<b><a href="#" id="'+row.vehicle+'_grphbtn" class="graph_show graph_exttemp">External Temperature:</a></b> '  + extraData.temperature_external + ' °c<br>';
+                    html+='<b><a id="'+row.vehicle+'_grphbtn" class="graph_show graph_exttemp">External Temperature:</a></b> '  + extraData.temperature_external + ' °c<br>';
             }
             if(typeof extraData.comment!='undefined') {
                     html+='<b>APRS Comment:</a></b> '  + extraData.comment + '<br>';
@@ -553,7 +557,7 @@ html, body, #map {
         if(row.callsign.length!=0) {
             html += "<b>Receivers:</b> " + row.callsign.split(",").join(", ")+"<br>";
         }
-        html += '<a href="#" id="'+row.vehicle+'_panbtn">Pan To</a>'
+        html += '<a id="'+row.vehicle+'_panbtn" class="pseudoHref">Pan To</a>'
         html += "</p>";
         
         $(document.body).on('click', '#'+row.vehicle+'_panbtn' ,function(){
@@ -648,14 +652,14 @@ html, body, #map {
             } else {
                 var ascentRate = lastRate[row.vehicle];
             }
-            html+='<b><a href="#" id="'+row.vehicle+'_grphbtn" class="graph_show graph_alt">Altitude:</a></b> '  + Number(row.gps_alt).toFixed(1) + ' m ('+(ascentRate<=0?'':'+') + ascentRate.toFixed(1)+' m/s)<br>';
+            html+='<b><a id="'+row.vehicle+'_grphbtn" class="graph_show graph_alt pseudoHref">Altitude:</a></b> '  + Number(row.gps_alt).toFixed(1) + ' m ('+(ascentRate<=0?'':'+') + ascentRate.toFixed(1)+' m/s)<br>';
             if(row.temp_inside!="") {
-                    html+='<b><a href="#" id="'+row.vehicle+'_grphbtn" class="graph_show graph_inttemp">Internal Temperature:</a></b> '  + row.temp_inside + ' °c<br>';
+                    html+='<b><a id="'+row.vehicle+'_grphbtn" class="graph_show graph_inttemp pseudoHref">Internal Temperature:</a></b> '  + row.temp_inside + ' °c<br>';
             }
             if(row.data.length!=0) {
                 var extraData=JSON.parse(row.data);
                 if(typeof extraData.temperature_external!='undefined') {
-                        html+='<b><a href="#" id="'+row.vehicle+'_grphbtn" class="graph_show graph_exttemp">External Temperature:</a></b> '  + extraData.temperature_external + ' °c<br>';
+                        html+='<b><a  id="'+row.vehicle+'_grphbtn" class="graph_show graph_exttemp pseudoHref">External Temperature:</a></b> '  + extraData.temperature_external + ' °c<br>';
                 }
                 if(typeof extraData.comment!='undefined') {
                         html+='<b>APRS Comment:</a></b> '  + extraData.comment + '<br>';
