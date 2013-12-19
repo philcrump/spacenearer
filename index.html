@@ -398,6 +398,8 @@ html, body, #map {
                         map.setView(vehMarkers[latestVehicle]._latlng,6);
 		                $(".page-loading").text("Loading Predictions..");
 		            }
+		        } else {
+		            $(".page-loading").text("No Vehicle Data Found");
 		        }
 	        }
         });
