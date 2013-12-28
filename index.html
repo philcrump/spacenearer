@@ -371,6 +371,10 @@ html, body, #map {
 	                        tmpData = $.grep(data, function( element, index ) {
                                 return ( element.vehicle==data[i].vehicle );
                             });
+		                    if(typeof payloadData[data[i].vehicle]=='undefined') {
+		                        payloadData[data[i].vehicle]=[];
+		                    }
+		                    $.merge(payloadData[data[i].vehicle],tmpData);
 	                        lastIndex=tmpData.length-1;
 	                        callsignLen = data[i].vehicle.length;
 	                        if(data[i].vehicle.substring(callsignLen-6,callsignLen)!="_chase") {
@@ -400,10 +404,6 @@ html, body, #map {
 		                    if(lastPosId<tmpData[lastIndex].position_id) {
 		                        lastPosId=tmpData[lastIndex].position_id;
 		                    }
-		                    if(typeof payloadData[data[i].vehicle]=='undefined') {
-		                        payloadData[data[i].vehicle]=[];
-		                    }
-		                    $.merge(payloadData[data[i].vehicle],tmpData);
 		                }
 		            }
 		            if(pageStarting) {
@@ -564,7 +564,15 @@ html, body, #map {
             }
         }
         if(row.callsign.length!=0) {
-            html += "<b>Receivers:</b> " + row.callsign.split(",").join(", ")+"<br>";
+            var numPoints = payloadData[row.vehicle].length
+            if(numPoints>3) {
+                var avgListeners = Number((payloadData[row.vehicle][numPoints-1]['callsign'].split(",").length +
+                    payloadData[row.vehicle][numPoints-2]['callsign'].split(",").length +
+                    payloadData[row.vehicle][numPoints-3]['callsign'].split(",").length)/3);
+                html += "<b>Receivers(~"+avgListeners.toFixed(0)+"):</b> " + row.callsign.split(",").join(", ")+"<br>";
+            } else {
+                html += "<b>Receivers:</b> " + row.callsign.split(",").join(", ")+"<br>";
+            }
         }
         html += '<a id="'+row.vehicle+'_panbtn" class="pseudoHref">Pan To</a>'
         html += "</p>";
