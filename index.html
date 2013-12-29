@@ -564,9 +564,9 @@ html, body, #map {
         if(row.callsign.length!=0) {
             var numPoints = payloadData[row.vehicle].length
             if(numPoints>3) {
-                var avgListeners = Number((payloadData[row.vehicle][numPoints-1]['callsign'].split(",").length +
-                    payloadData[row.vehicle][numPoints-2]['callsign'].split(",").length +
-                    payloadData[row.vehicle][numPoints-3]['callsign'].split(",").length)/3);
+                var avgListeners = Number((payloadData[row.vehicle][numPoints-2]['callsign'].split(",").length +
+                    payloadData[row.vehicle][numPoints-3]['callsign'].split(",").length +
+                    payloadData[row.vehicle][numPoints-4]['callsign'].split(",").length)/3);
                 html += "<b>Receivers(~"+avgListeners.toFixed(0)+"):</b> " + row.callsign.split(",").join(", ")+"<br>";
             } else {
                 html += "<b>Receivers:</b> " + row.callsign.split(",").join(", ")+"<br>";
