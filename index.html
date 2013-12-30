@@ -35,6 +35,8 @@ html, body, #map {
     overflow-y: auto;
     font-family: Helvetica,"Lucida Grande",Verdana,Arial;
     font-size: 12px;
+    text-align:center;
+    padding-bottom: 7px;
 }
 #box-mobile-status {
     display: none;
@@ -51,6 +53,7 @@ html, body, #map {
     padding-bottom: 10px;
     font-family: Helvetica,"Lucida Grande",Verdana,Arial;
     font-size: 12px;
+    text-align:center;
 }
 #box-payloads {
     position: absolute;
@@ -92,25 +95,22 @@ html, body, #map {
     text-decoration: underline;
     cursor: pointer;
 }
+.page-loading {
+    margin-bottom:0.75em;
+}
 </style>
 <link rel="stylesheet" href="static/css/leaflet.css" />
 </head>
 <body>
     <div id="map"></div>
     <div id="box-status" class="box">
-            <h1 style="text-align:center;">HAB Tracker Map</h1>
-            <ul>
-            <li>$$<b>B-34</b> 434.501 MHz Contestia 8/1000, APRS MOXER-4</li>
-            <li>$$<b>B-35</b> 434.502 MHz Contestia 8/1000, APRS MOXER-5</li>
-            <li>$$<b>B-36</b> 434.503 MHz Contestia 8/1000, APRS MOXER-6</li>
-            <li>$$<b>HABLAB</b> - 434.650MHz RTTY 50 7N1 425Hz</li>
-            <li><b>Join the community on <a href="http://webchat.freenode.net/?channels=highaltitude" target="_blank">IRC chat here</a>!</b></li>
-            </ul>
-            <h4 class="page-loading" style="text-align:center;">Loading Data..</h4>
+            <h1>HAB Tracker Map</h1>
+            <b>Join the community on <a href="http://webchat.freenode.net/?channels=highaltitude" target="_blank">IRC chat here</a>!</b>
+            <h4 class="page-loading">Loading Data..</h4>
     </div>
     <div id="box-mobile-status" class="box">
-            <h2 style="text-align:center;">HAB Tracker Map</h2>
-            <h4 class="page-loading" style="text-align:center;">Loading Data..</h4>
+            <h2>HAB Tracker Map</h2>
+            <h4 class="page-loading">Loading Data..</h4>
     </div>
     <div id="box-payloads" class="box">
     </div>
