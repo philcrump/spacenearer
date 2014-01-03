@@ -364,6 +364,7 @@ html, body, #map {
 	            if(data.length!=0) {
 	                var dataVehicles=[];
 	                for (var i=0; i<data.length; i++) {
+	                    if (data[i].vehicle=="50SAT") continue;
 	                    if(typeof dataVehicles[data[i].vehicle]=='undefined') {
 	                        dataVehicles[data[i].vehicle]=1;
 	                        tmpData = $.grep(data, function( element, index ) {
