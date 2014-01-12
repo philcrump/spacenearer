@@ -558,10 +558,10 @@ html, body, #map {
         if(row.data.length!=0) {
             var extraData=JSON.parse(row.data);
             if(typeof extraData.temperature_external!='undefined') {
-                    html+='<b><a id="'+row.vehicle+'_grphbtn" class="graph_show graph_exttemp">External Temperature:</a></b> '  + extraData.temperature_external + ' °c<br>';
+                    html+='<b><a id="'+row.vehicle+'_grphbtn" class="graph_show graph_exttemp pseudoHref">External Temperature:</a></b> '  + extraData.temperature_external + ' °c<br>';
             }
             if(typeof extraData.batterymv!='undefined') {
-                    html+='<b><a id="'+row.vehicle+'_grphbtn" class="graph_show graph_batterymv">Battery:</a></b> '  + extraData.batterymv + ' mV<br>';
+                    html+='<b><a id="'+row.vehicle+'_grphbtn" class="graph_show graph_batterymv pseudoHref">Battery:</a></b> '  + extraData.batterymv + ' mV<br>';
             }
             if(typeof extraData.comment!='undefined') {
                     html+='<b>APRS Comment:</a></b> '  + extraData.comment + '<br>';
@@ -683,7 +683,7 @@ html, body, #map {
                         html+='<b><a  id="'+row.vehicle+'_grphbtn" class="graph_show graph_exttemp pseudoHref">External Temperature:</a></b> '  + extraData.temperature_external + ' °c<br>';
                 }
                 if(typeof extraData.batterymv!='undefined') {
-                        html+='<b><a id="'+row.vehicle+'_grphbtn" class="graph_show graph_batterymv">Battery:</a></b> '  + extraData.batterymv + ' mV<br>';
+                        html+='<b><a id="'+row.vehicle+'_grphbtn" class="graph_show graph_batterymv pseudoHref">Battery:</a></b> '  + extraData.batterymv + ' mV<br>';
                 }
                 if(typeof extraData.comment!='undefined') {
                         html+='<b>APRS Comment:</a></b> '  + extraData.comment + '<br>';
