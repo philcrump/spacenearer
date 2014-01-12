@@ -292,6 +292,8 @@ html, body, #map {
             create_graph(wantedVehicle, true, 'battery_raw', 'Raw Battery Value', '?');
         } else if($.inArray('graph_pressure', event.currentTarget.classList)!=-1) {
             create_graph(wantedVehicle, true, 'pressure', 'Pressure', 'mbar');
+        } else if($.inArray('graph_batterymv', event.currentTarget.classList)!=-1) {
+            create_graph(wantedVehicle, true, 'batterymv', 'Battery Voltage', 'mV');
         }
     });
         
@@ -558,6 +560,9 @@ html, body, #map {
             if(typeof extraData.temperature_external!='undefined') {
                     html+='<b><a id="'+row.vehicle+'_grphbtn" class="graph_show graph_exttemp">External Temperature:</a></b> '  + extraData.temperature_external + ' °c<br>';
             }
+            if(typeof extraData.batterymv!='undefined') {
+                    html+='<b><a id="'+row.vehicle+'_grphbtn" class="graph_show graph_batterymv">Battery:</a></b> '  + extraData.batterymv + ' mV<br>';
+            }
             if(typeof extraData.comment!='undefined') {
                     html+='<b>APRS Comment:</a></b> '  + extraData.comment + '<br>';
             }
@@ -676,6 +681,9 @@ html, body, #map {
                 var extraData=JSON.parse(row.data);
                 if(typeof extraData.temperature_external!='undefined') {
                         html+='<b><a  id="'+row.vehicle+'_grphbtn" class="graph_show graph_exttemp pseudoHref">External Temperature:</a></b> '  + extraData.temperature_external + ' °c<br>';
+                }
+                if(typeof extraData.batterymv!='undefined') {
+                        html+='<b><a id="'+row.vehicle+'_grphbtn" class="graph_show graph_batterymv">Battery:</a></b> '  + extraData.batterymv + ' mV<br>';
                 }
                 if(typeof extraData.comment!='undefined') {
                         html+='<b>APRS Comment:</a></b> '  + extraData.comment + '<br>';
