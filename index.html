@@ -580,6 +580,9 @@ html, body, #map {
             if(typeof extraData.satellites!='undefined') {
                     html+='<b>Satellites:</a></b> '  + extraData.satellites + '<br>';
             }
+            if(typeof extraData.battery!='undefined') {
+                    html+='<b>Battery:</a></b> '  + extraData.battery + 'V<br>';
+            }
             if(typeof extraData.temperature_external!='undefined') {
                     html+='<b><a id="'+row.vehicle+'_grphbtn" class="graph_show graph_exttemp pseudoHref">External Temperature:</a></b> '  + extraData.temperature_external + ' °c<br>';
             }
