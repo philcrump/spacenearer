@@ -313,6 +313,8 @@ html, body, #map {
             create_graph(wantedVehicle, true, 'pressure', 'Pressure', 'mbar');
         } else if($.inArray('graph_batterymv', event.currentTarget.classList)!=-1) {
             create_graph(wantedVehicle, true, 'batterymv', 'Battery Voltage', 'mV');
+        } else if($.inArray('graph_battery', event.currentTarget.classList)!=-1) {
+            create_graph(wantedVehicle, true, 'battery', 'Battery Voltage', 'V');
         }
     });
         
@@ -581,7 +583,7 @@ html, body, #map {
                     html+='<b>Satellites:</a></b> '  + extraData.satellites + '<br>';
             }
             if(typeof extraData.battery!='undefined') {
-                    html+='<b>Battery:</a></b> '  + extraData.battery + 'V<br>';
+                    html+='<b><a id="'+row.vehicle+'_grphbtn" class="graph_show graph_battery pseudoHref">Battery:</a></b> '  + extraData.battery + 'V</a><br>';
             }
             if(typeof extraData.temperature_external!='undefined') {
                     html+='<b><a id="'+row.vehicle+'_grphbtn" class="graph_show graph_exttemp pseudoHref">External Temperature:</a></b> '  + extraData.temperature_external + ' °c<br>';
