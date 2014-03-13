@@ -400,7 +400,7 @@ html, body, #map {
 		                    $.merge(payloadData[data[i].vehicle],tmpData);
 	                        lastIndex=tmpData.length-1;
 	                        callsignLen = data[i].vehicle.length;
-	                        if(data[i].vehicle..indexOf("chase")==-1) {
+	                        if(data[i].vehicle.indexOf("chase")==-1) {
 	                            if(typeof lastAlt[data[i].vehicle]=='undefined') {
 	                                if(typeof tmpData[lastIndex-1]=='undefined') {
 	                                    lastAlt[data[i].vehicle]=tmpData[lastIndex].gps_alt;
