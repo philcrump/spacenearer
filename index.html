@@ -686,7 +686,7 @@ html, body, #map {
     
     function popupHtml(row) {
         var isChase=false;
-        if(row.vehicle.substring(callsignLen-6,callsignLen)=="_chase") {
+        if(row.vehicle.indexOf("chase")!=-1) {
             isChase = true;
         }
         var html = "<b>" + row.vehicle + "</b><br>"
