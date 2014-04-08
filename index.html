@@ -320,7 +320,8 @@ html, body, #map {
         
     function create_graph( callsign, dataArray, dataKey, dataName, dataUnits) {
         currentGraphData = [];
-        for (var i=0; i<payloadData[callsign].length; i++) {
+        var payloadDataLength = payloadData[callsign].length;
+        for (var i=0; i<payloadDataLength; i++) {
             currentGraphData[i] = [];
             currentGraphData[i][0] = moment(payloadData[callsign][i]['gps_time'], "YYYY-MM-DD HH:mm:ss").toDate(); // TODO: Write a custom, faster parser?
             if(dataArray) {
@@ -384,9 +385,10 @@ html, body, #map {
 	        data: getData,
 	        success: function( jsonData ) {
 	            data = jsonData.positions.position;
-	            if(data.length!=0) {
+	            var vehDataLength = data.length;
+	            if(vehDataLength!=0) {
 	                var dataVehicles=[];
-	                for (var i=0; i<data.length; i++) {
+	                for (var i=0; i<vehDataLength; i++) {
 	                    if (data[i].vehicle=="50SAT") continue;
 	                    if (data[i].vehicle=="icarus") continue;
 	                    if(typeof dataVehicles[data[i].vehicle]=='undefined') {
@@ -458,7 +460,8 @@ html, body, #map {
                         if(!pathData.errors) { // Catch predictor error
                             if(data[i].descending==0) { // If balloon is ascending, calculate and render burst
                                 var maxAlt=0, maxIndex;
-                                for(var j=0; j<pathData.length; j++) {
+                                var pathDataLength = pathData.length;
+                                for(var j=0; j<pathDataLength; j++) {
                                     if(parseFloat(pathData[j].alt)>maxAlt) {
                                         maxAlt=parseFloat(pathData[j].alt);
                                         maxIndex=j;
