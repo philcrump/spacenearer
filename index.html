@@ -387,6 +387,9 @@ html, body, #map {
 	            data = jsonData.positions.position;
 	            var vehDataLength = data.length;
 	            if(vehDataLength!=0) {
+	                if(pageStarting) {
+	                    $(".page-loading").text("Parsing Data..");
+	                }
 	                var dataVehicles=[];
 	                for (var i=0; i<vehDataLength; i++) {
 	                    if (data[i].vehicle=="50SAT") continue;
