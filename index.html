@@ -622,6 +622,8 @@ html, body, #map {
     function drawVehTail(allRows) {
         var allLength = allRows.length;
         var tmp_vehId = allRows[0].vehicle;
+        
+        allRows.sort(function(a,b){return moment(a.gps_time)-moment(b.gps_time)});
         if(vehTails[tmp_vehId]) {
             for (var i=0; i<allLength; i++) {
                 vehTails[tmp_vehId].addLatLng(new L.LatLng(allRows[i].gps_lat, allRows[i].gps_lon));
