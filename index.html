@@ -330,6 +330,7 @@ html, body, #map {
                 currentGraphData[i][1] = Number(payloadData[callsign][i][dataKey]);
             }
         }
+        if(callsign.substring(0, 2)=="B-") currentGraphData.sort(function(a,b){return a[0]-b[0]});
         currentGraphObj = new Dygraph(
             document.getElementById("graph-div"),
             currentGraphData, {
