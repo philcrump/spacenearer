@@ -323,7 +323,7 @@ html, body, #map {
         var payloadDataLength = payloadData[callsign].length;
         for (var i=0; i<payloadDataLength; i++) {
             currentGraphData[i] = [];
-            currentGraphData[i][0] = moment(payloadData[callsign][i]['gps_time'], "YYYY-MM-DD HH:mm:ss").toDate(); // TODO: Write a custom, faster parser?
+            currentGraphData[i][0] = parseGPStime(payloadData[callsign][i]['gps_time']);
             if(dataArray) {
                 currentGraphData[i][1] = Number(JSON.parse(payloadData[callsign][i]['data'])[dataKey]);
             } else {
@@ -625,7 +625,7 @@ html, body, #map {
     function drawVehTail(allRows) {
         var allLength = allRows.length;
         var tmp_vehId = allRows[0].vehicle;
-        if(tmp_vehId.substring(0, 2)=="B-") allRows.sort(function(a,b){return moment(a.gps_time)-moment(b.gps_time)});
+        if(tmp_vehId.substring(0, 2)=="B-") allRows.sort(function(a,b){return parseGPStime(a.gps_time)-parseGPStime(b.gps_time)});
         if(vehTails[tmp_vehId]) {
             for (var i=0; i<allLength; i++) {
                 vehTails[tmp_vehId].addLatLng(new L.LatLng(allRows[i].gps_lat, allRows[i].gps_lon));
@@ -754,6 +754,13 @@ html, body, #map {
 	    }
 	    return vars;
 	}
+	function parseGPStime(input) {
+	    // "2014-04-27 16:56:59"
+        var parts = input.split(' ');
+        var dateparts = parts[0].split('-');
+        var timeparts = parts[1].split(':');
+        return new Date(dateparts[0], dateparts[1]-1, dateparts[2], timeparts[0], timeparts[1], timeparts[2]); // Note: months are 0-based
+    }
 </script>
 </body>
 </html>
