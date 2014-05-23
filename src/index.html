@@ -102,7 +102,9 @@ html, body, #map {
     margin-bottom:0;
 }
 </style>
-<link rel="stylesheet" href="static/css/leaflet.css" />
+<!-- build:css static/leaflet/leaflet.min.css -->
+<link rel="stylesheet" href="static/leaflet/leaflet.css" />
+<!-- /build -->
 </head>
 <body>
     <div id="map"></div>
@@ -123,8 +125,15 @@ html, body, #map {
         <br>
         Click and Drag to zoom, Double-Click to reset zoom, <a class="graph_hide pseudoHref" style="text-align:center;">Click here to Close</a>
     </div>
-<script src="static/js/combined-libs.js"></script>
-<script src="static/apikeys.js"></script>
+<!-- build:js static/libs.js -->
+<script src="static/leaflet/leaflet-src.js"></script>
+<script src="static/leaflet/leaflet-google.js"></script>
+<script src="static/leaflet/leaflet-bing.js"></script>
+<script src="../apikeys.js"></script>
+<script src="static/jquery-1.11.1.min.js"></script>
+<script src="static/moment.min.js"></script>
+<script src="static/dygraph-combined.js"></script>
+<!-- /build -->
 <script src="https://maps.google.com/maps/api/js?v=3&key=AIzaSyC9XjZwvS6zn_COxONWADDpJ7Fioe26tjo&sensor=false"></script>
 <script>
     var pageStarting=true;

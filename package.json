@@ -1,0 +1,32 @@
+{
+  "name": "spacenearer",
+  "version": "1.0.0",
+  "description": "A leaflet.js-based alternative of spacenear.us",
+  "license": "GPLv3",
+  "contributors": [ 
+    {
+      "name": "Phil Crump",
+      "email": "phildcrump@gmail.com"
+    },
+    {
+      "name": "Mike M1ARI"
+    }
+  ],
+  "homepage": "http://habmap.philcrump.co.uk/",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:philcrump/spacenearer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/philcrump/spacenearer/issues"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.4",
+    "grunt-cli": "^0.1.13",
+    "grunt-contrib-copy": "^0.5.0",
+    "grunt-contrib-cssmin": "^0.9.0",
+    "grunt-contrib-concat": "^0.4.0",
+    "grunt-processhtml": "^0.3.3",
+    "grunt-contrib-compress": "^0.8.0"
+  }
+}
