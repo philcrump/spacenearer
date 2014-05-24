@@ -611,7 +611,7 @@ html, body, #map {
                     html+='<b>APRS Comment:</a></b> '  + extraData.comment + '<br>';
             }
         }
-        if(row.callsign.length!=0 && typeof extraData.comment=='undefined') {
+        if(row.callsign.length!=0) {
             var numPoints = payloadData[row.vehicle].length
             if(numPoints>3) {
                 var avgListeners = Number((payloadData[row.vehicle][numPoints-2]['callsign'].split(",").length +
