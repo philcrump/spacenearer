@@ -156,6 +156,7 @@ html, body, #map {
     var carColours=[];
     
     var lastAlt=[]; // For ascent/descent rate calculations
+    var maxAlt=[];
     var lastTime=[]; // " "
     var lastRate=[]; // For holding last ascent rate for the redundant data rows (late uploads)
     
@@ -247,21 +248,61 @@ html, body, #map {
         });
     }
     
-    function balloonIconFactory(iconCallsign,altitude) {
+    function balloonIconFactory(iconCallsign,altitude,flight_state) {
         if(typeof balloonColours['red']=='undefined') {
-            var iconColour='static/images/balloon-red.png';
+            switch (flight_state) {
+                case 0:
+                    var iconColour='static/images/balloon-red.png';
+                    break;
+                case 1:
+                    var iconColour='static/images/parachute-red.png';
+                    break;
+                case 1:
+                    var iconColour='static/images/landed-red.png';
+                    break;
+            }
             balloonColours['red'] = iconCallsign;
         } else {
             if(typeof balloonColours['blue']=='undefined') {
-                var iconColour='static/images/balloon-blue.png';
+                switch (flight_state) {
+                    case 0:
+                        var iconColour='static/images/balloon-blue.png';
+                        break;
+                    case 1:
+                        var iconColour='static/images/parachute-blue.png';
+                        break;
+                    case 1:
+                        var iconColour='static/images/landed-blue.png';
+                        break;
+                }
                 balloonColours['blue'] = iconCallsign;
             } else {
                 if(typeof balloonColours['green']=='undefined') {
-                    var iconColour='static/images/balloon-green.png';
+                    switch (flight_state) {
+                        case 0:
+                            var iconColour='static/images/balloon-green.png';
+                            break;
+                        case 1:
+                            var iconColour='static/images/parachute-green.png';
+                            break;
+                        case 1:
+                            var iconColour='static/images/landed-green.png';
+                            break;
+                    }
                     balloonColours['green'] = iconCallsign;
                 } else {
                     // Give up, make it red
-                    var iconColour='static/images/balloon-red.png';
+                    switch (flight_state) {
+                        case 0:
+                            var iconColour='static/images/balloon-red.png';
+                            break;
+                        case 1:
+                            var iconColour='static/images/parachute-red.png';
+                            break;
+                        case 1:
+                            var iconColour='static/images/landed-red.png';
+                            break;
+                    }
                 }
             }
        }
@@ -420,15 +461,21 @@ html, body, #map {
 	                                if(typeof tmpData[lastIndex-1]=='undefined') {
 	                                    lastAlt[data[i].vehicle]=tmpData[lastIndex].gps_alt;
 	                                    lastTime[data[i].vehicle]=moment(tmpData[lastIndex].gps_time);
+	                                    lastRate[data[i].vehicle]=0;
 	                                } else {
 	                                    lastAlt[data[i].vehicle]=tmpData[lastIndex-1].gps_alt;
 	                                    lastTime[data[i].vehicle]=moment(tmpData[lastIndex-1].gps_time);
+	                                    var secondsSinceLast = moment(tmpData[lastIndex].gps_time).unix() - lastTime[data[i].vehicle].unix();
+                                        if(secondsSinceLast!=0) {
+                                            lastRate[data[i].vehicle] = (tmpData[lastIndex].gps_alt-lastAlt[data[i].vehicle])/secondsSinceLast;
+                                        } else {
+                                            lastRate[data[i].vehicle] = 0;
+                                        }
 	                                }
-	                                lastRate[data[i].vehicle]=0;
 	                            }
+		                        drawVehTail(tmpData);
 		                        setVehPos(tmpData[lastIndex]);
 		                        setVehInfo(tmpData[lastIndex]);
-		                        drawVehTail(tmpData);
 		                        drawVehReceivers(tmpData[lastIndex]);
 		                        lastAlt[data[i].vehicle]=tmpData[lastIndex].gps_alt;
                                 lastTime[data[i].vehicle]=moment(tmpData[lastIndex].gps_time);
@@ -500,9 +547,19 @@ html, body, #map {
         if(row.gps_alt<0) {
             row.gps_alt=0;
         }
+        var flight_state=0; // 0 - Ascending, 1 - Descending, 2 - Landed
+        if(parseInt(row.gps_alt)>maxAlt[row.vehicle]) {
+            // Ascending
+            maxAlt[row.vehicle]=parseInt(row.gps_alt);
+        } else if(lastRate[row.vehicle]<-3.0) {
+            flight_state=1;
+        } else if(maxAlt[row.vehicle]>2000 && lastRate[row.vehicle]<1.0 && parseInt(row.gps_alt)<300) {
+            flight_state=2;
+        }
         if(vehMarkers[row.vehicle]) {
             vehMarkers[row.vehicle].setLatLng([row.gps_lat,row.gps_lon]);
             vehMarkers[row.vehicle].setPopupContent(popupHtml(row));
+            vehMarkers[row.vehicle].setIcon(balloonIconFactory(row.vehicle,row.gps_alt,flight_state));
             vehCircles[row.vehicle][0].setLatLng([row.gps_lat,row.gps_lon]);
             vehCircles[row.vehicle][1].setLatLng([row.gps_lat,row.gps_lon]);
             vehCircles[row.vehicle][0].setRadius(Math.sqrt(12.756*row.gps_alt)*1000);
@@ -510,7 +567,7 @@ html, body, #map {
         } else {
             vehMarkers[row.vehicle] = L.marker([row.gps_lat,row.gps_lon], {
                 title: row.vehicle,
-                icon: balloonIconFactory(row.vehicle,row.gps_alt)
+                icon: balloonIconFactory(row.vehicle,row.gps_alt,flight_state)
             }).addTo(map);
             vehMarkers[row.vehicle].bindPopup(popupHtml(row));
             vehCircles[row.vehicle]=[];
@@ -636,14 +693,17 @@ html, body, #map {
         var allLength = allRows.length;
         var tmp_vehId = allRows[0].vehicle;
         if(tmp_vehId.substring(0, 2)=="B-") allRows.sort(function(a,b){return parseGPStime(a.gps_time)-parseGPStime(b.gps_time)});
+        if(typeof maxAlt[tmp_vehId]=='undefined') maxAlt[tmp_vehId]=-9999;
         if(vehTails[tmp_vehId]) {
             for (var i=0; i<allLength; i++) {
                 vehTails[tmp_vehId].addLatLng(new L.LatLng(allRows[i].gps_lat, allRows[i].gps_lon));
+                if(parseInt(allRows[i].gps_alt)>maxAlt[tmp_vehId]) maxAlt[tmp_vehId]=parseInt(allRows[i].gps_alt);
             }
         } else {
             var temp_latlngs = [];
             for (var i=0; i<allLength; i++) {
                 temp_latlngs.push(new L.LatLng(allRows[i].gps_lat, allRows[i].gps_lon));
+                if(parseInt(allRows[i].gps_alt)>maxAlt[tmp_vehId]) maxAlt[tmp_vehId]=parseInt(allRows[i].gps_alt);
             }
             vehTails[tmp_vehId] = L.polyline(temp_latlngs, {color: 'red', opacity: 1, weight: 3}).addTo(map);
         }
