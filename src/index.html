@@ -249,59 +249,56 @@ html, body, #map {
     }
     
     function balloonIconFactory(iconCallsign,altitude,flight_state) {
+        var iconColour;
         if(typeof balloonColours['red']=='undefined') {
             switch (flight_state) {
-                case 0:
-                    var iconColour='static/images/balloon-red.png';
-                    break;
                 case 1:
-                    var iconColour='static/images/parachute-red.png';
+                    iconColour='static/images/parachute-red.png';
                     break;
-                case 1:
-                    var iconColour='static/images/landed-red.png';
+                case 2:
+                    iconColour='static/images/landed-red.png';
                     break;
+                default:
+                    iconColour='static/images/balloon-red.png';
             }
             balloonColours['red'] = iconCallsign;
         } else {
             if(typeof balloonColours['blue']=='undefined') {
                 switch (flight_state) {
-                    case 0:
-                        var iconColour='static/images/balloon-blue.png';
-                        break;
                     case 1:
-                        var iconColour='static/images/parachute-blue.png';
+                        iconColour='static/images/parachute-blue.png';
                         break;
-                    case 1:
-                        var iconColour='static/images/landed-blue.png';
+                    case 2:
+                        iconColour='static/images/landed-blue.png';
                         break;
+                    default:
+                        iconColour='static/images/balloon-blue.png';
                 }
                 balloonColours['blue'] = iconCallsign;
             } else {
                 if(typeof balloonColours['green']=='undefined') {
                     switch (flight_state) {
-                        case 0:
-                            var iconColour='static/images/balloon-green.png';
-                            break;
                         case 1:
-                            var iconColour='static/images/parachute-green.png';
+                            iconColour='static/images/parachute-green.png';
                             break;
-                        case 1:
-                            var iconColour='static/images/landed-green.png';
+                        case 2:
+                            iconColour='static/images/landed-green.png';
                             break;
+                        default:
+                            iconColour='static/images/balloon-green.png';
                     }
                     balloonColours['green'] = iconCallsign;
                 } else {
                     // Give up, make it red
                     switch (flight_state) {
-                        case 0:
-                            var iconColour='static/images/balloon-red.png';
-                            break;
                         case 1:
-                            var iconColour='static/images/parachute-red.png';
+                            iconColour='static/images/parachute-red.png';
                             break;
-                        case 1:
-                            var iconColour='static/images/landed-red.png';
+                        case 2:
+                            iconColour='static/images/landed-red.png';
                             break;
+                        default:
+                            iconColour='static/images/balloon-red.png';
                     }
                 }
             }
