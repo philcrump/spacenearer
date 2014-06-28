@@ -193,11 +193,32 @@ html, body, #map {
         });
 	// TODO: Add bounds box for UK only
     }
-
-    map.addLayer(osm);
     
     var ggl = new L.Google();
     var gglt = new L.Google('TERRAIN');
+    if(typeof urlVars['maptype']!='undefined') {
+        switch(urlVars['maptype']) {
+            case "satellite":
+                map.addLayer(ggl);
+                break;
+            case "terrain":
+                map.addLayer(gglt);
+                break;
+            case "os":
+                if(typeof bing_os != 'undefined') {
+                    map.addLayer(bing_os);
+                } else {
+                    console.log("Bing Maps not set up. Falling back to OSM...")
+                    map.addLayer(osm);
+                }
+                break;
+            default:
+                console.log("Map type not recognised. Falling back to OSM...")
+                map.addLayer(osm);
+        }
+	} else {
+	    map.addLayer(osm);
+	}
 
     var layers = new L.Control.Layers( {'OSM':osm, 'Google Satellite':ggl, 'Google Terrain':gglt}, {});
     if (typeof bing_os != 'undefined') {
@@ -817,13 +838,15 @@ html, body, #map {
 	function getUrlVars()
 	{
 	    var vars = [], hash;
-	    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-	    for(var i = 0; i < hashes.length; i++) {
-			hash = hashes[i].split('=');
-			vars.push(hash[0]);
-			vars[hash[0]] = hash[1];
+	    if(window.location.href.indexOf('?')>1) {
+	        var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+	        for(var i = 0; i < hashes.length; i++) {
+			    hash = hashes[i].split('=');
+			    vars.push(hash[0]);
+			    vars[hash[0]] = hash[1];
+	        }
 	    }
-	    return vars;
+	    return vars
 	}
 	function parseGPStime(input) {
 	    // "2014-04-27 16:56:59"
