@@ -165,6 +165,8 @@ html, body, #map {
 	
 	if(typeof getUrlVars()['vehicles']!='undefined') {
 	    var filterVehicles=getUrlVars()['vehicles'];
+	} else if(typeof getUrlVars()['vehicle']!='undefined') {
+	    var filterVehicles=getUrlVars()['vehicle'];
 	}
 	
 	var map = L.map('map', {
