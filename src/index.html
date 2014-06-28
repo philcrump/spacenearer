@@ -162,11 +162,13 @@ html, body, #map {
     
     var latestVehicle; // Used on page load to find most recent payload to pan to
     var latestTime = moment("2001"); // Used to compare payload lastTimes
+    
+    var urlVars = getUrlVars();
 	
-	if(typeof getUrlVars()['vehicles']!='undefined') {
-	    var filterVehicles=getUrlVars()['vehicles'];
-	} else if(typeof getUrlVars()['vehicle']!='undefined') {
-	    var filterVehicles=getUrlVars()['vehicle'];
+	if(typeof urlVars['vehicles']!='undefined') {
+	    var filterVehicles=urlVars['vehicles'];
+	} else if(typeof urlVars['vehicle']!='undefined') {
+	    var filterVehicles=urlVars['vehicle'];
 	}
 	
 	var map = L.map('map', {
