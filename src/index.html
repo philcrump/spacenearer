@@ -164,6 +164,11 @@ html, body, #map {
     var latestTime = moment("2001"); // Used to compare payload lastTimes
     
     var urlVars = getUrlVars();
+    
+    var embedded=false;
+    if(typeof urlVars['embed']!='undefined') {
+        embedded=true;
+    }
 	
 	if(typeof urlVars['vehicles']!='undefined') {
 	    var filterVehicles=urlVars['vehicles'];
@@ -350,7 +355,7 @@ html, body, #map {
         $("#box-status").hide();
         $("#box-mobile-status").show();
 		rxInterval=30;
-		$("box-payloads").hide();
+		$("#box-payloads").hide();
     }
     
     var mobile_expanded=true;
@@ -365,6 +370,11 @@ html, body, #map {
             mobile_expanded=true;
         }
     });
+    
+    if(embedded) {
+        $("#box-status").hide();
+		$("#box-payloads").hide();
+    }
 
     setInterval(refreshReceivers,rxRefreshInterval*1000);
     setInterval(refreshVehicles,vehRefreshInterval*1000);
@@ -653,7 +663,9 @@ html, body, #map {
             container.setAttribute('class', 'vehicle_box');
             container.setAttribute('id', 'vehicle' + row.vehicle);
             document.getElementById("box-payloads").appendChild(container);
-            $("#box-payloads").show();
+            if(!embedded) {
+                $("#box-payloads").show();
+            }
         }
         
         
