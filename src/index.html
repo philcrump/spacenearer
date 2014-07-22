@@ -26,6 +26,7 @@ html, body, #map {
     background-repeat:initial;
 }
 #box-status {
+    display: none;
     position: absolute;
     top: 10px;
     left: 50px;
@@ -168,6 +169,10 @@ html, body, #map {
     var embedded=false;
     if(typeof urlVars['embed']!='undefined') {
         embedded=true;
+    }
+    
+    if(!embedded) {
+        $("#box-status").show();
     }
 	
 	if(typeof urlVars['vehicles']!='undefined') {
@@ -370,11 +375,7 @@ html, body, #map {
             mobile_expanded=true;
         }
     });
-    
-    if(embedded) {
-        $("#box-status").hide();
-		$("#box-payloads").hide();
-    }
+        
 
     setInterval(refreshReceivers,rxRefreshInterval*1000);
     setInterval(refreshVehicles,vehRefreshInterval*1000);
