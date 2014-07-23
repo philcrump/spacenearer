@@ -805,6 +805,15 @@ html, body, #map {
             + '<p style="font-size: 8pt;">'
             + "<b>Time:</b> " + row.gps_time + "<br>"
             + "<b>Position:</b> " + row.gps_lat + ", " + row.gps_lon + "<br>";
+		if(row.vehicle.substring(0, 2)=="B-") {
+        	var sum=0;
+			vehTails[row.vehicle].getLatLngs().forEach( function(value,index) {
+				if(vehTails[row.vehicle].getLatLngs()[index+1]) {
+					sum+=value.distanceTo(vehTails[row.vehicle].getLatLngs()[index+1])
+				}
+            });
+            html+="<b>Travelled:</b> " + Math.round(sum/100)/10 + " km<br>";
+        }
         if(!isChase) {
             var secondsSinceLast = moment(row.gps_time).unix() - lastTime[row.vehicle].unix();
             if(secondsSinceLast!=0) {
