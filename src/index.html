@@ -96,6 +96,9 @@ html, body, #map {
     text-decoration: underline;
     cursor: pointer;
 }
+.styledHref {
+    color: black;
+}
 #box-status .page-loading {
     margin-bottom:0.75em;
 }
@@ -720,7 +723,7 @@ html, body, #map {
             }
         }
         html += '<a id="'+row.vehicle+'_panbtn" class="pseudoHref">Pan To</a>'
-        html += '&nbsp;<a href="/?vehicles='+row.vehicle+'">Filter</a>'
+        html += '&nbsp;&nbsp;<a class="styledHref" href="/?vehicles='+row.vehicle+'">Filter</a>'
         html += "</p>";
         
         $(document.body).on('click', '#'+row.vehicle+'_panbtn' ,function(){
