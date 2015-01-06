@@ -24,7 +24,6 @@ module.exports = function(grunt) {
 					'dist/static/leaflet/leaflet-google.js',
 					'dist/static/leaflet/leaflet-bing.js',
                     'dist/static/jquery-1.11.2.min.js',
-                    'dist/static/moment.min.js',
                     'dist/static/dygraph-combined.js',
                 ]
             },

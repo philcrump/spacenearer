@@ -132,7 +132,6 @@ html, body, #map {
 <script src="static/leaflet/leaflet-bing.js"></script>
 <script src="../apikeys.js"></script>
 <script src="static/jquery-1.11.2.min.js"></script>
-<script src="static/moment.min.js"></script>
 <script src="static/dygraph-combined.js"></script>
 <!-- /build -->
 <script src="https://maps.google.com/maps/api/js?v=3&key=AIzaSyC9XjZwvS6zn_COxONWADDpJ7Fioe26tjo&sensor=false"></script>
@@ -162,7 +161,7 @@ html, body, #map {
     var lastRate=[]; // For holding last ascent rate for the redundant data rows (late uploads)
     
     var latestVehicle; // Used on page load to find most recent payload to pan to
-    var latestTime = moment("2001"); // Used to compare payload lastTimes
+    var latestTime = new Date(0); // Used to compare payload lastTimes
     
     var urlVars = getUrlVars();
     
@@ -499,12 +498,12 @@ html, body, #map {
 	                            if(typeof lastAlt[data[i].vehicle]=='undefined') {
 	                                if(typeof tmpData[lastIndex-1]=='undefined') {
 	                                    lastAlt[data[i].vehicle]=tmpData[lastIndex].gps_alt;
-	                                    lastTime[data[i].vehicle]=moment(tmpData[lastIndex].gps_time);
+	                                    lastTime[data[i].vehicle]=parseGPStime(tmpData[lastIndex].gps_time);
 	                                    lastRate[data[i].vehicle]=0;
 	                                } else {
 	                                    lastAlt[data[i].vehicle]=tmpData[lastIndex-1].gps_alt;
-	                                    lastTime[data[i].vehicle]=moment(tmpData[lastIndex-1].gps_time);
-	                                    var secondsSinceLast = moment(tmpData[lastIndex].gps_time).unix() - lastTime[data[i].vehicle].unix();
+	                                    lastTime[data[i].vehicle]=parseGPStime(tmpData[lastIndex-1].gps_time);
+	                                    var secondsSinceLast = (parseGPStime(tmpData[lastIndex].gps_time)/1000) - (lastTime[data[i].vehicle]/1000);
                                         if(secondsSinceLast!=0) {
                                             lastRate[data[i].vehicle] = (tmpData[lastIndex].gps_alt-lastAlt[data[i].vehicle])/secondsSinceLast;
                                         } else {
@@ -517,7 +516,7 @@ html, body, #map {
 		                        setVehInfo(tmpData[lastIndex]);
 		                        drawVehReceivers(tmpData[lastIndex]);
 		                        lastAlt[data[i].vehicle]=tmpData[lastIndex].gps_alt;
-                                lastTime[data[i].vehicle]=moment(tmpData[lastIndex].gps_time);
+                                lastTime[data[i].vehicle]=parseGPStime(tmpData[lastIndex].gps_time);
                                 if(pageStarting && (latestTime.unix()<lastTime[data[i].vehicle].unix())) {
                                     latestVehicle=data[i].vehicle;
                                     latestTime=lastTime[data[i].vehicle];
@@ -680,7 +679,7 @@ html, body, #map {
             + '<p style="font-size: 10pt;">'
             + "<b>Time:</b> " + row.gps_time + "<br>"
             + "<b>Position:</b> " + row.gps_lat + ", " + row.gps_lon + "<br>";
-        var secondsSinceLast = moment(row.gps_time).unix() - lastTime[row.vehicle].unix();
+        var secondsSinceLast = (parseGPStime(row.gps_time)/1000) - (lastTime[row.vehicle]/1000);
         if(secondsSinceLast!=0) {
             var ascentRate = (row.gps_alt-lastAlt[row.vehicle])/secondsSinceLast;
             lastRate[row.vehicle]=ascentRate;
@@ -721,7 +720,7 @@ html, body, #map {
             }
         }
         html += '<a id="'+row.vehicle+'_panbtn" class="pseudoHref">Pan To</a>'
-        html += '&nbsp;<a href="/?vehicles='+row.vehicle'">Filter</a>'
+        html += '&nbsp;<a href="/?vehicles='+row.vehicle+'">Filter</a>'
         html += "</p>";
         
         $(document.body).on('click', '#'+row.vehicle+'_panbtn' ,function(){
@@ -756,7 +755,7 @@ html, body, #map {
             vehPredictions[vehicle][1].setLatLng([row.lat,row.lon]);
             vehPredictions[vehicle][1].setPopupContent(
                 "<b>Burst</b><br>"
-                +moment.unix(row.time).format("HH:mm:ss")+" UTC"
+                + new Date(row.time*1000).toLocaleTimeString()
                 +"<br>@ "+row.alt+"m"
             );
         } else {
@@ -766,7 +765,7 @@ html, body, #map {
             }).addTo(map);
             vehPredictions[vehicle][1].bindPopup(
                 "<b>Burst</b><br>"
-                +moment.unix(row.time).format("HH:mm:ss")+" UTC"
+                + new Date(row.time*1000).toLocaleTimeString()
                 +"<br>@ "+row.alt+"m"
             );
         }
@@ -777,7 +776,7 @@ html, body, #map {
             vehPredictions[vehicle][2].setLatLng([row.lat,row.lon]);
             vehPredictions[vehicle][2].setPopupContent(
                 "<b>Landing</b><br>"
-                +moment.unix(row.time).format("HH:mm:ss")+" UTC"
+                +new Date(row.time*1000).toLocaleTimeString()
             );
         } else {
             vehPredictions[vehicle][2] = L.marker([row.lat,row.lon], {
@@ -786,7 +785,7 @@ html, body, #map {
             }).addTo(map);
             vehPredictions[vehicle][2].bindPopup(
                 "<b>Landing</b><br>"
-                +moment.unix(row.time).format("HH:mm:ss")+" UTC"
+                +new Date(row.time*1000).toLocaleTimeString()
             );
         }
     }
@@ -822,7 +821,7 @@ html, body, #map {
             html+="<b>Travelled:</b> " + Math.round(sum/100)/10 + " km<br>";
         }
         if(!isChase) {
-            var secondsSinceLast = moment(row.gps_time).unix() - lastTime[row.vehicle].unix();
+            var secondsSinceLast = (parseGPSDate(row.gps_time)/1000) - (lastTime[row.vehicle]/1000);
             if(secondsSinceLast!=0) {
                 var ascentRate = (row.gps_alt-lastAlt[row.vehicle])/secondsSinceLast;
                 lastRate[row.vehicle]=ascentRate;
