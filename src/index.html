@@ -821,7 +821,7 @@ html, body, #map {
             html+="<b>Travelled:</b> " + Math.round(sum/100)/10 + " km<br>";
         }
         if(!isChase) {
-            var secondsSinceLast = (parseGPSDate(row.gps_time)/1000) - (lastTime[row.vehicle]/1000);
+            var secondsSinceLast = (parseGPStime(row.gps_time)/1000) - (lastTime[row.vehicle]/1000);
             if(secondsSinceLast!=0) {
                 var ascentRate = (row.gps_alt-lastAlt[row.vehicle])/secondsSinceLast;
                 lastRate[row.vehicle]=ascentRate;
