@@ -131,7 +131,7 @@ html, body, #map {
 <script src="static/leaflet/leaflet-google.js"></script>
 <script src="static/leaflet/leaflet-bing.js"></script>
 <script src="../apikeys.js"></script>
-<script src="static/jquery-1.11.1.min.js"></script>
+<script src="static/jquery-1.11.2.min.js"></script>
 <script src="static/moment.min.js"></script>
 <script src="static/dygraph-combined.js"></script>
 <!-- /build -->
@@ -721,6 +721,7 @@ html, body, #map {
             }
         }
         html += '<a id="'+row.vehicle+'_panbtn" class="pseudoHref">Pan To</a>'
+        html += '&nbsp;<a href="/?vehicles='+row.vehicle'">Filter</a>'
         html += "</p>";
         
         $(document.body).on('click', '#'+row.vehicle+'_panbtn' ,function(){
