@@ -485,6 +485,7 @@ html, body, #map {
 	                for (var i=0; i<vehDataLength; i++) {
 	                    if (data[i].vehicle=="50SAT") continue;
 	                    if (data[i].vehicle=="icarus") continue;
+	                    if (data[i].vehicle=="B-64") continue;
 	                    if (beefilter && data[i].vehicle.substring(0, 2)=="B-") continue;
 	                    if(typeof dataVehicles[data[i].vehicle]=='undefined') {
 	                        dataVehicles[data[i].vehicle]=1;
