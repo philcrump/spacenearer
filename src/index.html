@@ -171,11 +171,6 @@ html, body, #map {
         embedded=true;
     }
     
-    var beefilter=false;
-    if(typeof urlVars['nobees']!='undefined') {
-        beefilter=true;
-    }
-    
     if(!embedded) {
         $("#box-status").show();
     }
@@ -466,6 +461,8 @@ html, body, #map {
         };
         if(typeof filterVehicles != 'undefined') {
             getData['vehicles']=filterVehicles;
+        } else {
+            getData['vehicles']='!B-*';
         }
         $.ajax({
 	        url: "http://spacenear.us/tracker/data.php",
@@ -483,8 +480,6 @@ html, body, #map {
 	                for (var i=0; i<vehDataLength; i++) {
 	                    if (data[i].vehicle=="50SAT") continue;
 	                    if (data[i].vehicle=="icarus") continue;
-	                    if (data[i].vehicle=="B-64") continue;
-	                    if (beefilter && data[i].vehicle.substring(0, 2)=="B-") continue;
 	                    if(typeof dataVehicles[data[i].vehicle]=='undefined') {
 	                        dataVehicles[data[i].vehicle]=1;
 	                        tmpData = $.grep(data, function( element, index ) {
