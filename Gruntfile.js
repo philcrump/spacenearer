@@ -23,7 +23,7 @@ module.exports = function(grunt) {
 					'dist/static/leaflet/leaflet.js',
 					'dist/static/leaflet/leaflet-google.js',
 					'dist/static/leaflet/leaflet-bing.js',
-                    'dist/static/jquery-1.11.2.min.js',
+                    'dist/static/jquery-2.2.2.min.js',
                     'dist/static/dygraph-combined.js',
                 ]
             },
@@ -58,5 +58,5 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-processhtml');
   grunt.loadNpmTasks('grunt-contrib-compress');
   // Default tasks.
-  grunt.registerTask('default', ['copy', 'cssmin', 'concat', 'processhtml', 'compress']);
+  grunt.registerTask('default', ['copy', 'cssmin', 'concat', 'processhtml']);//, 'compress']);
 };
